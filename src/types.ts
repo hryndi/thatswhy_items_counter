@@ -5,7 +5,7 @@ import { InputHTMLAttributes } from "react";
 export type TContextAPI = TUseAuthReturn &
   TUseLogInReturn &
   TUseLogOutReturn & {
-    currentUser: firebase.User | null;
+    currentUser: firebase.User | null | undefined;
     loading: boolean;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   };
