@@ -12,7 +12,7 @@ import { set } from "firebase/database";
 export const ContextAPI = createContext<null | TContextAPI>(null);
 
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [currentUser, setCurrentUser] = useState<firebase.User | null>(null);
+  const [currentUser, setCurrentUser] = useState<firebase.User | undefined | null>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const { signUpValues, SignUpInputConstructor, handleRegister, signUpError } = useAuth();
   const { logInValues, SignInInputConstructor, handleLogIn, logInError } = useLogIn();
@@ -36,14 +36,10 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setCurrentUser(user);
-      } else {
-        setCurrentUser(null);
-      }
+      setCurrentUser(user);
       setLoading(false);
     });
-    console.log(currentUser);
+
     return unsubscribe;
   }, []);
 

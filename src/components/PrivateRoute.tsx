@@ -4,10 +4,10 @@ import { Navigate, Outlet } from "react-router-dom";
 
 import React from "react";
 
-const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
+const PrivateRoute = () => {
   const currentUser = useContextSelector(ContextAPI, (v) => v?.currentUser);
-  console.log(currentUser);
-  return currentUser?.email ? children : <Navigate to="/sign-in" />;
+  if (currentUser === undefined) return null;
+  return currentUser ? <Outlet /> : <Navigate to="/sign-in" />;
 };
 
 export default PrivateRoute;

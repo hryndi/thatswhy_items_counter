@@ -48,25 +48,6 @@ const Main = () => {
         path: "/",
         element: <App />,
         children: [
-          // {
-          //   path: "/",
-          //   element: <PrivateRoute />,
-          //   children: [
-          {
-            path: "/",
-            element: <GroupMenu />,
-          },
-          {
-            path: "/group-content",
-            element: <GroupContent />,
-          },
-          {
-            path: "/dashboard",
-            element: <Dashboard />,
-          },
-          // ],
-          // },
-
           {
             path: "/sign-in",
             element: <LogIn />,
@@ -74,6 +55,24 @@ const Main = () => {
           {
             path: "/sign-up",
             element: <Register />,
+          },
+          {
+            path: "/",
+            element: <PrivateRoute />,
+            children: [
+              {
+                path: "/",
+                element: <GroupMenu />,
+              },
+              {
+                path: "/group-content",
+                element: <GroupContent />,
+              },
+              {
+                path: "/dashboard",
+                element: <Dashboard />,
+              },
+            ],
           },
         ],
       },
