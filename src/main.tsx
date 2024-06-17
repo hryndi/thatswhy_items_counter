@@ -5,10 +5,11 @@ import "./index.css";
 
 // components
 import LogIn from "./views/LogIn";
-import GroupMenu from "./views/GroupMenu";
+import GroupMenu from "./views/GroupMenu/GroupMenu.tsx";
 import GroupContent from "./views/GroupContent";
 import PrivateRoute from "./components/PrivateRoute.tsx";
 import Dashboard from "./views/Dashboard.tsx";
+import AddGroupModal from "./views/GroupMenu/AddGroupModal.tsx";
 // MUI
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 // Router
@@ -63,6 +64,12 @@ const Main = () => {
               {
                 path: "/",
                 element: <GroupMenu />,
+                children: [
+                  {
+                    path: "/add-group",
+                    element: <AddGroupModal />,
+                  },
+                ],
               },
               {
                 path: "/group-content",

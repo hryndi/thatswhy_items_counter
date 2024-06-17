@@ -3,14 +3,16 @@ import { TSignInValues, TUseAuthReturn, TSignUpInputConstructor } from "../types
 import { auth } from "../firebase/fbconfig";
 import { ContextAPI } from "../store/ContextProvider";
 import { useContextSelector } from "use-context-selector";
+import { useNavigate } from "react-router-dom";
 
 export const useAuth = (): TUseAuthReturn => {
   const setLoading = useContextSelector(ContextAPI, (v) => v?.setLoading);
+  const navigate = useNavigate();
   const [signUpValues, setSignInValues] = useState<TSignInValues>({ email: "", password: "", passwordConfirm: "" });
   const [signUpError, setSignUpError] = useState<string>("");
 
   const signup = (email: string, password: string) => {
-    auth.createUserWithEmailAndPassword(email, password);
+    return auth.createUserWithEmailAndPassword(email, password);
   };
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,7 +29,7 @@ export const useAuth = (): TUseAuthReturn => {
       try {
         setSignUpError("");
         setLoading?.(true);
-        await signup(signUpValues.email, signUpValues.password);
+        await signup(signUpValues.email, signUpValues.password).then(() => navigate("/"));
       } catch (errors) {
         setSignUpError("Failed to create an account");
       }

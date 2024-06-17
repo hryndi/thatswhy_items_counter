@@ -8,32 +8,8 @@ import { useNavigate } from "react-router-dom";
 export const useLogIn = (): TUseLogInReturn => {
   const navigate = useNavigate();
   const setLoading = useContextSelector(ContextAPI, (v) => v?.setLoading);
+  const currentUser = useContextSelector(ContextAPI, (v) => v?.currentUser);
   const [logInValues, setLogInValues] = useState<TLogInValues>({ email: "", password: "" });
-  const [logInError, setLogInError] = useState<string>("");
-
-  const logIn = (email: string, password: string) => {
-    auth.signInWithEmailAndPassword(email, password);
-  };
-
-  const handleLogIn = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!/^[a-zA-Z\s].*@.*$/.test(logInValues.email)) {
-      return setLogInError("email is not correct");
-    }
-    if (logInValues.password === "") {
-      return setLogInError("password field can not be empty");
-    } else {
-      try {
-        setLogInError("");
-        setLoading?.(true);
-        await logIn(logInValues.email, logInValues.password);
-        navigate("/");
-      } catch (errors) {
-        setLogInError("Failed to log-in in account");
-      }
-      setLoading?.(false);
-    }
-  };
 
   const SignInInputConstructor: TSignInInputConstructor = useMemo(
     () => [
@@ -63,14 +39,5 @@ export const useLogIn = (): TUseLogInReturn => {
     [logInValues]
   );
 
-  //   useEffect(() => {
-  //     const unsubscribe = auth.onAuthStateChanged((user) => {
-  //       setCurrentUser(user);
-  //       setLoading(false);
-  //     });
-
-  //     return unsubscribe;
-  //   }, []);
-
-  return { logInValues, SignInInputConstructor, handleLogIn, logInError };
+  return { logInValues, SignInInputConstructor };
 };
