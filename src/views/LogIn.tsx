@@ -1,9 +1,10 @@
 import { FormControl, Button, TextField, Typography, Alert } from "@mui/material";
 import { useContextSelector } from "use-context-selector";
 import { ContextAPI } from "../store/ContextProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LogIn = () => {
+  const navigate = useNavigate();
   const SignInInputConstructor = useContextSelector(ContextAPI, (v) => v?.SignInInputConstructor);
   const loading = useContextSelector(ContextAPI, (v) => v?.loading);
   const currentUser = useContextSelector(ContextAPI, (v) => v?.currentUser);
@@ -12,7 +13,11 @@ const LogIn = () => {
   return (
     <>
       <h1>Log In page</h1>
-      <form onSubmit={(e) => handleLogIn?.(e)}>
+      <form
+        onSubmit={(e) => {
+          handleLogIn?.(e);
+        }}
+      >
         {currentUser?.email}
         {logInError && <Alert severity="error">{logInError}</Alert>}
         {SignInInputConstructor?.map((item) => (

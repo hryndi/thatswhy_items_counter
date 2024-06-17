@@ -5,9 +5,6 @@ import ContextProvider from "./store/ContextProvider";
 function App() {
   return (
     <ContextProvider>
-      <h1>Hello World!</h1>
-      <Button variant="contained">Something</Button>
-
       <Outlet />
     </ContextProvider>
   );
