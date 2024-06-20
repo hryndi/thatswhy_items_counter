@@ -1,5 +1,6 @@
 import { TextFieldVariants } from "@mui/material";
 import firebase from "firebase/compat/app";
+import { DocumentData } from "firebase/firestore";
 import { InputHTMLAttributes } from "react";
 
 export type TContextAPI = TUseAuthReturn &
@@ -13,6 +14,12 @@ export type TContextAPI = TUseAuthReturn &
     handleUserGroups: () => void;
     handleLogIn: (e: React.FormEvent<HTMLFormElement>) => void;
     logInError: string;
+    groupList: null | TGroupList[];
+    addValueHandler: () => void;
+    displayGroupItemsHandler: (groupId: string, currentUserId: string | null | undefined) => void;
+    groupItemsData: DocumentData | null;
+    currentGroup: string;
+    setCurrentGroup: React.Dispatch<React.SetStateAction<string>>;
   };
 
 export type TSignInValues = {
@@ -49,6 +56,8 @@ export type TUseGroupMenuReturn = {
   setNewGroupName: React.Dispatch<React.SetStateAction<string>>;
   setIsShowGroupCreator: React.Dispatch<React.SetStateAction<boolean>>;
   isShowGroupCreator: boolean;
+
+  // setGroupList: React.Dispatch<React.SetStateAction<null | TGroupList>>;
 };
 
 export type TUseLogOutReturn = {
@@ -65,3 +74,8 @@ export type TSignUpInputConstructor = Array<
   }
 >;
 export type TSignInInputConstructor = TSignUpInputConstructor;
+
+export type TGroupList = {
+  id: string;
+  name: string;
+};

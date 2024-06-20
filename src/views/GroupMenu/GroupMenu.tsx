@@ -1,21 +1,32 @@
 import { Button } from "@mui/material";
 import { ContextAPI } from "../../store/ContextProvider";
 import { useContextSelector } from "use-context-selector";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AddGroupModal from "./AddGroupModal";
-import { Outlet, useNavigate } from "react-router-dom";
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase/fbconfig";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+
+import { setDefaultEventParameters } from "firebase/analytics";
+import { TGroupList } from "../../types";
 
 const GroupMenu = () => {
-  // const currentUserId = useContextSelector(ContextAPI, (v) => v?.currentUserId);
-
-  // const groupRef = doc(db, `/user_groups/KtfasWCr8sUUzkf1gE7P1ET0koZ2`);
-
   const navigate = useNavigate();
+
+  const groupList = useContextSelector(ContextAPI, (v) => v?.groupList);
+  const setCurrentGroup = useContextSelector(ContextAPI, (v) => v?.setCurrentGroup);
+
   return (
     <>
       <h1>GroupMenu Page</h1>
+      <ul>
+        {groupList?.map((item) => (
+          <li id={item.id}>
+            <Link to={item.id} onClick={() => setCurrentGroup?.(item.name)}>
+              {item.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+
       <Button variant="contained" onClick={() => navigate("/add-group")}>
         Create Group
       </Button>

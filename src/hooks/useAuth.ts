@@ -29,7 +29,8 @@ export const useAuth = (): TUseAuthReturn => {
       try {
         setSignUpError("");
         setLoading?.(true);
-        await signup(signUpValues.email, signUpValues.password).then(() => navigate("/"));
+        await signup(signUpValues.email, signUpValues.password);
+        setTimeout(() => navigate("/"));
       } catch (errors) {
         setSignUpError("Failed to create an account");
       }

@@ -6,6 +6,7 @@ const AddGroupModal = () => {
   const newGroupName = useContextSelector(ContextAPI, (v) => v?.newGroupName);
   const handleUserGroups = useContextSelector(ContextAPI, (v) => v?.handleUserGroups);
   const setNewGroupName = useContextSelector(ContextAPI, (v) => v?.setNewGroupName);
+  const addValueHandler = useContextSelector(ContextAPI, (v) => v?.addValueHandler);
   return (
     <Box component={"div"} padding={3}>
       <div>
