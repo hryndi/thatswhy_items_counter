@@ -1,5 +1,5 @@
 import { createContext } from "use-context-selector";
-import { TContextAPI } from "../types";
+import { TContextAPI, TGroupList } from "../types";
 import { useAuth } from "../hooks/useAuth";
 import { useLogIn } from "../hooks/useLogIn";
 import { useLogOut } from "../hooks/useLogOut";
@@ -10,10 +10,12 @@ import firebase from "firebase/compat/app";
 import { auth } from "../firebase/fbconfig";
 import { set } from "firebase/database";
 import { useGroupMenu } from "../hooks/useGroupMenu";
+import { useGroupContent } from "../hooks/useGroupContent";
 
 import { db } from "../firebase/fbconfig";
-import { doc, setDoc } from "firebase/firestore";
+import { DocumentData, collection, doc, getDocs, onSnapshot, query, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "@emotion/react";
 
 export const ContextAPI = createContext<null | TContextAPI>(null);
 
@@ -22,23 +24,21 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<firebase.User | undefined | null>(undefined);
   const [currentUserId, setCurrentUserId] = useState<string | undefined | null>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
+  const [groupList, setGroupList] = useState<TGroupList[] | null>(null);
+  const [currentGroup, setCurrentGroup] = useState<string>("");
+
   const { signUpValues, SignUpInputConstructor, handleRegister, signUpError } = useAuth();
   const { logInValues, SignInInputConstructor } = useLogIn();
   const { handleLogout, logOutError } = useLogOut();
   const { newGroupName, isShowGroupCreator, setIsShowGroupCreator, setNewGroupName } = useGroupMenu();
+  const { displayGroupItemsHandler, groupItemsData } = useGroupContent();
 
   const handleUserGroups = () => {
-    if (currentUserId) {
-      const groupRef = doc(db, `/user_groups/${currentUserId}/${newGroupName}`, uuid());
-      if (newGroupName === "" || newGroupName.length > 20) {
-        console.log("group name is incorrect");
-      } else {
-        setDoc(groupRef, { merge: true });
-        console.log("db updated sucessfully");
-        navigate("/");
-      }
+    if (newGroupName === "" || newGroupName.length > 20) {
+      console.log("group name is incorrect");
     } else {
-      console.log("currentUserId is not set");
+      addValueHandler();
+      navigate("/");
     }
   };
 
@@ -47,28 +47,56 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     return auth.signInWithEmailAndPassword(email, password);
   };
 
-  const handleLogIn = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!/^[a-zA-Z\s].*@.*$/.test(logInValues.email)) {
       return setLogInError("email is not correct");
     }
     if (logInValues.password === "") {
       return setLogInError("password field can not be empty");
-    } else {
-      try {
-        setLogInError("");
-        setLoading(true);
-        logIn(logInValues.email, logInValues.password).then(() => {
-          navigate("/");
-        });
-      } catch (errors) {
-        setLogInError("Failed to log-in in account");
-      }
+    }
+
+    try {
+      setLogInError("");
+      setLoading(true);
+
+      await logIn(logInValues.email, logInValues.password);
+
+      setTimeout(() => navigate("/"));
+    } catch (errors) {
+      setLogInError("Failed to log-in in account");
+    } finally {
       setLoading(false);
     }
   };
 
+  const getValue = () => {
+    if (currentUserId) {
+      const userGroupRef = doc(db, "user_groups", currentUserId);
+      const collectionVal = query(collection(userGroupRef, "groups"));
+      onSnapshot(collectionVal, (doc) => {
+        setGroupList(doc.docs.map((doc) => ({ id: doc.id.toLowerCase().replace(/ /g, "-"), name: doc.id })));
+      });
+      // const getValue = await getDocs(collectionVal);
+      // setGroupList(getValue.docs.map((doc) => ({ id: doc.id })));
+    }
+  };
+  const addValueHandler = () => {
+    if (currentUserId) {
+      const groupRef = doc(db, "user_groups", currentUserId, "groups", newGroupName);
+
+      setDoc(groupRef, {});
+    }
+    alert("added...");
+  };
+
   const vals: TContextAPI = {
+    currentGroup,
+    setCurrentGroup,
+    groupItemsData,
+    displayGroupItemsHandler,
+    addValueHandler,
+    groupList,
     setNewGroupName,
     isShowGroupCreator,
     setIsShowGroupCreator,
@@ -100,7 +128,14 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
 
     return unsubscribe;
   }, []);
+  // useEffect(() => {}, []);
 
+  useEffect(() => {
+    if (currentUserId) {
+      getValue();
+    }
+  }, [currentUserId]);
+  console.log(groupList);
   return <ContextAPI.Provider value={vals}> {!loading && children} </ContextAPI.Provider>;
 };
 export default ContextProvider;

@@ -6,7 +6,7 @@ import "./index.css";
 // components
 import LogIn from "./views/LogIn";
 import GroupMenu from "./views/GroupMenu/GroupMenu.tsx";
-import GroupContent from "./views/GroupContent";
+import GroupContent from "./views/GroupContent/GroupContent.tsx";
 import PrivateRoute from "./components/PrivateRoute.tsx";
 import Dashboard from "./views/Dashboard.tsx";
 import AddGroupModal from "./views/GroupMenu/AddGroupModal.tsx";
@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 // Router
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Register from "./views/Register.tsx";
+import GroupContentModal from "./views/GroupContent/GroupContentModal.tsx";
 
 const theme = createTheme({
   palette: {
@@ -42,51 +43,57 @@ const theme = createTheme({
   },
 });
 
-const Main = () => {
-  const router = createBrowserRouter(
-    [
-      {
-        path: "/",
-        element: <App />,
-        children: [
-          {
-            path: "/sign-in",
-            element: <LogIn />,
-          },
-          {
-            path: "/sign-up",
-            element: <Register />,
-          },
-          {
-            path: "/",
-            element: <PrivateRoute />,
-            children: [
-              {
-                path: "/",
-                element: <GroupMenu />,
-                children: [
-                  {
-                    path: "/add-group",
-                    element: <AddGroupModal />,
-                  },
-                ],
-              },
-              {
-                path: "/group-content",
-                element: <GroupContent />,
-              },
-              {
-                path: "/dashboard",
-                element: <Dashboard />,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    { basename: "/thatswhy_items_counter/" }
-  );
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <App />,
+      children: [
+        {
+          path: "/sign-in",
+          element: <LogIn />,
+        },
+        {
+          path: "/sign-up",
+          element: <Register />,
+        },
+        {
+          path: "/",
+          element: <PrivateRoute />,
+          children: [
+            {
+              path: "/",
+              element: <GroupMenu />,
+              children: [
+                {
+                  path: "/add-group",
+                  element: <AddGroupModal />,
+                },
+              ],
+            },
+            {
+              path: "/:groupId",
+              element: <GroupContent />,
+              children: [
+                {
+                  path: "/:groupId/:groupItemId",
+                  element: <GroupContentModal />,
+                },
+              ],
+            },
 
+            {
+              path: "/dashboard",
+              element: <Dashboard />,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  { basename: "/thatswhy_items_counter/" }
+);
+const Main = () => {
   return (
     <React.StrictMode>
       <ThemeProvider theme={theme}>

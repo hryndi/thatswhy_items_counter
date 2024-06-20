@@ -4,7 +4,7 @@ import { ContextAPI } from "../store/ContextProvider";
 import { Link, useNavigate } from "react-router-dom";
 
 const LogIn = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const SignInInputConstructor = useContextSelector(ContextAPI, (v) => v?.SignInInputConstructor);
   const loading = useContextSelector(ContextAPI, (v) => v?.loading);
   const currentUser = useContextSelector(ContextAPI, (v) => v?.currentUser);
