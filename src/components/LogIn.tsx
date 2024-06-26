@@ -1,8 +1,42 @@
-import { FormControl, Button, TextField, Typography, Alert } from "@mui/material";
+import { FormControl, Button, TextField, Typography, Alert, Box, Stack } from "@mui/material";
 import { useContextSelector } from "use-context-selector";
 import { ContextAPI } from "../store/ContextProvider";
 import { Link, useNavigate } from "react-router-dom";
+import { styled as styledMui } from "@mui/material";
 
+const SBox = styledMui(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "column",
+  height: "100%",
+  width: "100%",
+  padding: "1.5rem",
+}));
+const ContentWrapp = styledMui(Box)(({ theme }) => ({
+  backgroundColor: "#fff",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "column",
+  borderRadius: "1rem",
+  gap: "1.2rem",
+  padding: "1.8rem",
+  boxShadow: "rgba(0, 0, 0, 0.3) 3px 5px 15px",
+
+  // height: "100%",
+  width: "100%",
+  maxWidth: "500px",
+}));
+const STextField = styledMui(TextField)(({ theme }) => ({
+  width: "100%",
+}));
+const SForm = styledMui("form")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.8rem",
+  width: "100%",
+}));
 const LogIn = () => {
   // const navigate = useNavigate();
   const SignInInputConstructor = useContextSelector(ContextAPI, (v) => v?.SignInInputConstructor);
@@ -12,38 +46,53 @@ const LogIn = () => {
   const logInError = useContextSelector(ContextAPI, (v) => v?.logInError);
   return (
     <>
-      <h1>Log In page</h1>
-      <form
-        onSubmit={(e) => {
-          handleLogIn?.(e);
-        }}
-      >
-        {currentUser?.email}
-        {logInError && <Alert severity="error">{logInError}</Alert>}
-        {SignInInputConstructor?.map((item) => (
-          <>
-            <Typography>{item.typography}</Typography>
-            <TextField
-              id={item.id}
-              placeholder={item.placeholder}
-              variant={item.variant}
-              value={item.value}
-              onChange={item.onChange}
-            />
-          </>
-        ))}
-        <Button variant="contained" type="submit" disabled={loading}>
-          Log In
-        </Button>
-        <Typography>
-          Need an account? <Link to={"/sign-up"}>Sign Up</Link>
-        </Typography>
+      <SBox>
+        <ContentWrapp>
+          <h1>Log In page</h1>
+          <SForm
+            onSubmit={(e) => {
+              handleLogIn?.(e);
+            }}
+          >
+            {currentUser && (
+              <>
+                <Alert>
+                  <Typography variant="body1" fontWeight={500} display={"inline-block"}>
+                    You are logged-in as:
+                  </Typography>{" "}
+                  {currentUser.email}
+                  <br />
+                  <div style={{ marginTop: "0.3rem" }}>
+                    Go to: <Link to={"/"}> Homepage</Link>
+                  </div>
+                </Alert>
+                {logInError && <Alert severity="error">{logInError}</Alert>}
+              </>
+            )}
 
-        {/* <Typography>Password</Typography>
-        <TextField></TextField>
-        <Typography>Confirm The Password</Typography>
-        <TextField></TextField> */}
-      </form>
+            {SignInInputConstructor?.map((item) => (
+              <Box>
+                <Typography variant="h6">{item.typography}</Typography>
+                <STextField
+                  id={item.id}
+                  placeholder={item.placeholder}
+                  variant={item.variant}
+                  value={item.value}
+                  onChange={item.onChange}
+                />
+              </Box>
+            ))}
+            <Button variant="contained" type="submit" disabled={loading} style={{ marginTop: "0.5rem" }}>
+              Log In
+            </Button>
+          </SForm>
+          <Stack direction={"row"} justifyContent={"flex-start"} marginBlock={"0.5rem"} width={"100%"}>
+            <Typography>
+              Doesn't have an account yet? <Link to={"/sign-up"}>Register</Link>
+            </Typography>
+          </Stack>
+        </ContentWrapp>
+      </SBox>
     </>
   );
 };
