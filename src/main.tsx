@@ -4,7 +4,7 @@ import App from "./App.tsx";
 import "./index.css";
 
 // components
-import LogIn from "./views/LogIn";
+import LogIn from "./components/LogIn.tsx";
 import GroupMenu from "./views/GroupMenu/GroupMenu.tsx";
 import GroupContent from "./views/GroupContent/GroupContent.tsx";
 import PrivateRoute from "./components/PrivateRoute.tsx";
@@ -14,8 +14,9 @@ import AddGroupModal from "./views/GroupMenu/AddGroupModal.tsx";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 // Router
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Register from "./views/Register.tsx";
+import Register from "./components/Register.tsx";
 import GroupContentModal from "./views/GroupContent/GroupContentModal.tsx";
+import AddNewFieldModal from "./views/GroupContent/AddNewFieldModal.tsx";
 
 const theme = createTheme({
   palette: {
@@ -78,6 +79,10 @@ const router = createBrowserRouter(
                 {
                   path: "/:groupId/:groupItemId",
                   element: <GroupContentModal />,
+                },
+                {
+                  path: "/:groupId/new-field",
+                  element: <AddNewFieldModal />,
                 },
               ],
             },

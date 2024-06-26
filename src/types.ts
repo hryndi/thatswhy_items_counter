@@ -22,6 +22,19 @@ export type TContextAPI = TUseAuthReturn &
     setCurrentGroup: React.Dispatch<React.SetStateAction<string>>;
   };
 
+export type TGroupContentAPI = {
+  newFieldHandler: (newFieldName: string, newFieldValue: number) => void;
+  deleteItemHandler: () => void;
+  isItemUrlCorrect: string | false | undefined;
+  itemName: string | null | undefined;
+  itemValue: number;
+  addValueHandler: () => void;
+  removeValueHandler: () => void;
+  setCustomValue: React.Dispatch<React.SetStateAction<number>>;
+  customValue: number;
+  addCustomValueHandler: () => void;
+};
+
 export type TSignInValues = {
   email: string;
   password: string;
