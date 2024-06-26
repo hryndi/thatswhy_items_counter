@@ -14,7 +14,7 @@ import { useGroupContent } from "../hooks/useGroupContent";
 
 import { db } from "../firebase/fbconfig";
 import { DocumentData, collection, doc, getDocs, onSnapshot, query, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ThemeContext } from "@emotion/react";
 
 export const ContextAPI = createContext<null | TContextAPI>(null);
@@ -75,7 +75,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       const userGroupRef = doc(db, "user_groups", currentUserId);
       const collectionVal = query(collection(userGroupRef, "groups"));
       onSnapshot(collectionVal, (doc) => {
-        setGroupList(doc.docs.map((doc) => ({ id: doc.id.toLowerCase().replace(/ /g, "-"), name: doc.id })));
+        setGroupList(doc.docs.map((doc) => ({ id: doc.id.replace(/ /g, "-"), name: doc.id })));
       });
       // const getValue = await getDocs(collectionVal);
       // setGroupList(getValue.docs.map((doc) => ({ id: doc.id })));

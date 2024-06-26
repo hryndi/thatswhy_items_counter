@@ -1,20 +1,26 @@
 import { FormControl, Button, TextField, Typography, Alert } from "@mui/material";
 import { useContextSelector } from "use-context-selector";
 import { ContextAPI } from "../store/ContextProvider";
-import { Link } from "react-router-dom";
-const Register = () => {
-  const SignUpInputConstructor = useContextSelector(ContextAPI, (v) => v?.SignUpInputConstructor);
-  const handleRegister = useContextSelector(ContextAPI, (v) => v?.handleRegister);
+import { Link, useNavigate } from "react-router-dom";
+
+const LogIn = () => {
+  // const navigate = useNavigate();
+  const SignInInputConstructor = useContextSelector(ContextAPI, (v) => v?.SignInInputConstructor);
   const loading = useContextSelector(ContextAPI, (v) => v?.loading);
-  const signUpError = useContextSelector(ContextAPI, (v) => v?.signUpError);
   const currentUser = useContextSelector(ContextAPI, (v) => v?.currentUser);
+  const handleLogIn = useContextSelector(ContextAPI, (v) => v?.handleLogIn);
+  const logInError = useContextSelector(ContextAPI, (v) => v?.logInError);
   return (
     <>
-      <h1>Register page</h1>
-      <form onSubmit={(e) => handleRegister?.(e)}>
+      <h1>Log In page</h1>
+      <form
+        onSubmit={(e) => {
+          handleLogIn?.(e);
+        }}
+      >
         {currentUser?.email}
-        {signUpError && <Alert severity="error">{signUpError}</Alert>}
-        {SignUpInputConstructor?.map((item) => (
+        {logInError && <Alert severity="error">{logInError}</Alert>}
+        {SignInInputConstructor?.map((item) => (
           <>
             <Typography>{item.typography}</Typography>
             <TextField
@@ -23,24 +29,22 @@ const Register = () => {
               variant={item.variant}
               value={item.value}
               onChange={item.onChange}
-              //   helperText={item.helperText}
-              //   error={item.error}
             />
           </>
         ))}
         <Button variant="contained" type="submit" disabled={loading}>
-          Sign up
+          Log In
         </Button>
+        <Typography>
+          Need an account? <Link to={"/sign-up"}>Sign Up</Link>
+        </Typography>
 
         {/* <Typography>Password</Typography>
         <TextField></TextField>
         <Typography>Confirm The Password</Typography>
         <TextField></TextField> */}
-        <Typography>
-          Already have an account? <Link to={"/sign-in"}>Log In</Link>
-        </Typography>
       </form>
     </>
   );
 };
-export default Register;
+export default LogIn;
