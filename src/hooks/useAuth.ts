@@ -18,13 +18,13 @@ export const useAuth = (): TUseAuthReturn => {
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (signUpValues.password !== signUpValues.passwordConfirm) {
-      return setSignUpError("passwords do not match");
+      return setSignUpError("Passwords do not match");
     }
     if (!/^[a-zA-Z\s].*@.*$/.test(signUpValues.email)) {
-      return setSignUpError("email is not correct");
+      return setSignUpError("Email is not correct");
     }
     if (signUpValues.password === "") {
-      return setSignUpError("password field can not be empty");
+      return setSignUpError("Password field can not be empty");
     } else {
       try {
         setSignUpError("");

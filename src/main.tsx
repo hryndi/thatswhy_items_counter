@@ -41,6 +41,12 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: " Open Sans, sans-serif",
+    h6: {
+      fontSize: "1rem",
+    },
+    body1: {
+      fontSize: "0.95rem",
+    },
   },
 });
 

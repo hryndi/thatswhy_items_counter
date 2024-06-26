@@ -50,7 +50,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const handleLogIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!/^[a-zA-Z\s].*@.*$/.test(logInValues.email)) {
-      return setLogInError("email is not correct");
+      return setLogInError("Email is not correct");
     }
     if (logInValues.password === "") {
       return setLogInError("password field can not be empty");
