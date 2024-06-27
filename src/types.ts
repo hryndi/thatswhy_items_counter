@@ -20,6 +20,8 @@ export type TContextAPI = TUseAuthReturn &
     groupItemsData: DocumentData | null;
     currentGroup: string;
     setCurrentGroup: React.Dispatch<React.SetStateAction<string>>;
+    setCurrentPageName: React.Dispatch<React.SetStateAction<string>>;
+    currentPageName: string;
   };
 
 export type TGroupContentAPI = {

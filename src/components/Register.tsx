@@ -20,7 +20,7 @@ const ContentWrapp = styledMui(Box)(({ theme }) => ({
   justifyContent: "center",
   flexDirection: "column",
   borderRadius: "1rem",
-  gap: "1.2rem",
+  gap: "1rem",
   padding: "1.8rem",
   boxShadow: "rgba(0, 0, 0, 0.3) 3px 5px 15px",
 
@@ -60,12 +60,16 @@ const Register = () => {
                   {currentUser.email}
                   <br />
                   <div style={{ marginTop: "0.3rem" }}>
-                    Go to: <Link to={"/"}> Homepage</Link>
+                    <Typography variant="body1" fontWeight={500} display={"inline-block"}>
+                      Go to:
+                    </Typography>{" "}
+                    <Link to={"/"}> Homepage</Link>
                   </div>
                 </Alert>
-                {signUpError && <Alert severity="error">{signUpError}</Alert>}
               </>
             )}
+            {signUpError && <Alert severity="error">{signUpError}</Alert>}
+
             {SignUpInputConstructor?.map((item) => (
               <Box>
                 <Typography variant="h6" fontWeight={500}>

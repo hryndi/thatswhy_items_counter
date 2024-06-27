@@ -5,7 +5,7 @@ import ContextProvider from "./store/ContextProvider";
 import { styled as styledMui } from "@mui/material";
 
 const SBox = styledMui(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.grey[300],
+  backgroundColor: theme.palette.background.default,
   display: "flex",
   alignItems: "center",
   flexDirection: "column",
