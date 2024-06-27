@@ -1,5 +1,5 @@
 import { Box, Button, Modal, Stack, TextField, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { db } from "../../firebase/fbconfig";
 import { doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
@@ -21,17 +21,17 @@ const SContentWrapper = styledMui(Box)(({ theme }) => ({
 }));
 
 const AddNewFieldModal = () => {
+  const navigate = useNavigate();
   const { groupId } = useParams();
   const [newFieldName, setNewFieldName] = useState("");
   const [newFieldValue, setNewFieldValue] = useState<null | number>(null);
   const newFieldHandler = useContextSelector(GroupContentAPI, (v) => v?.newFieldHandler);
-  const [open, setOpen] = useState(true);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+  const handleClose = () => navigate(`/${groupId}`);
   return (
     <Modal
       sx={{ display: "grid", placeContent: "center", padding: 1 }}
-      open={open}
+      open={true}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
@@ -67,7 +67,13 @@ const AddNewFieldModal = () => {
         </SContentWrapper>
 
         <Stack width={"100%"} display={"flex"} justifyContent={"end"} padding={3} paddingTop={0}>
-          <Button onClick={() => newFieldValue && newFieldHandler?.(newFieldName, newFieldValue)} variant="contained">
+          <Button
+            onClick={() => {
+              newFieldValue && newFieldHandler?.(newFieldName, newFieldValue);
+              navigate(`/${groupId}`);
+            }}
+            variant="contained"
+          >
             Submit
           </Button>
         </Stack>

@@ -28,10 +28,23 @@ const GroupContent = () => {
   groupId && currentUserId && displayGroupItemsHandler?.(groupId, currentUserId);
   console.log(groupItemsData);
 
+  const setCurrentPageName = useContextSelector(ContextAPI, (v) => v?.setCurrentPageName);
+  groupId && setCurrentPageName?.(groupId);
   return (
     <>
       <SBox>
-        <Stack direction={"row"} justifyContent={"flex-start"} marginBottom={3}>
+        <Stack direction={"row"} justifyContent={"space-between"} marginBottom={3}>
+          <Button
+            sx={{ width: "170px" }}
+            color="secondary"
+            variant="contained"
+            onClick={() => {
+              navigate(`/`);
+              setCurrentPageName?.("Menu");
+            }}
+          >
+            Go back
+          </Button>
           <Button sx={{ width: "170px" }} variant="contained" onClick={() => navigate(`/${groupId}/new-field`)}>
             Add New Field
           </Button>
