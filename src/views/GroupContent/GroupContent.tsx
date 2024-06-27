@@ -16,7 +16,6 @@ const SBox = styledMui(Box)(() => ({
 
 const GroupContent = () => {
   const { groupId } = useParams();
-
   const navigate = useNavigate();
   const groupItemsData = useContextSelector(ContextAPI, (v) => v?.groupItemsData);
   const displayGroupItemsHandler = useContextSelector(ContextAPI, (v) => v?.displayGroupItemsHandler);
@@ -43,9 +42,14 @@ const GroupContent = () => {
           >
             Go back
           </Button>
-          <Button sx={{ width: "170px" }} variant="contained" onClick={() => navigate(`/${groupId}/new-field`)}>
-            Add New Field
-          </Button>
+          <Box display="flex" gap={2}>
+            <Button sx={{ width: "170px" }} variant="contained" onClick={() => navigate(`/${groupId}/new-field`)}>
+              Add New Field
+            </Button>
+            <Button sx={{ width: "100px" }} variant="contained" onClick={() => navigate(`/${groupId}/print-content`)}>
+              Print
+            </Button>
+          </Box>
         </Stack>
         <GroupContentProvider>
           {isGroupContentUrlCorrect ? (
