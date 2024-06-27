@@ -16,6 +16,7 @@ export const useLogIn = (): TUseLogInReturn => {
           setLogInValues((prevVal) => {
             return { ...prevVal, email: e.target.value };
           }),
+        type: "email",
       },
       {
         typography: "Password",
@@ -27,6 +28,7 @@ export const useLogIn = (): TUseLogInReturn => {
           setLogInValues((prevVal) => {
             return { ...prevVal, password: e.target.value };
           }),
+        type: "password",
       },
     ],
     [logInValues]

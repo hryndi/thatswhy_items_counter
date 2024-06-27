@@ -56,18 +56,20 @@ const theme = createTheme({
       fontSize: "1.9rem",
     },
   },
+
   components: {
     MuiInputLabel: {
       defaultProps: {
         sx: {
-          fontSize: "1.25rem",
+          fontSize: { xs: "1.1rem", sm: "1.25rem" },
         },
       },
     },
+
     MuiOutlinedInput: {
       defaultProps: {
         sx: {
-          fontSize: "1.25rem",
+          fontSize: { xs: "1.1rem", sm: "1.25rem" },
         },
       },
     },

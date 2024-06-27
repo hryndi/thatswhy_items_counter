@@ -50,6 +50,7 @@ export const useAuth = (): TUseAuthReturn => {
           setSignInValues((prevVal) => {
             return { ...prevVal, email: e.target.value };
           }),
+        type: "email",
       },
       {
         typography: "Password",
@@ -61,6 +62,7 @@ export const useAuth = (): TUseAuthReturn => {
           setSignInValues((prevVal) => {
             return { ...prevVal, password: e.target.value };
           }),
+        type: "password",
       },
       {
         typography: "Confirm Password",
@@ -72,6 +74,7 @@ export const useAuth = (): TUseAuthReturn => {
           setSignInValues((prevVal) => {
             return { ...prevVal, passwordConfirm: e.target.value };
           }),
+        type: "password",
       },
     ],
     [signUpValues]
