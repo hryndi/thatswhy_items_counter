@@ -1,9 +1,6 @@
-import { DocumentData, collection, doc, onSnapshot, setDoc } from "firebase/firestore";
+import { DocumentData, collection, doc, onSnapshot } from "firebase/firestore";
 import { useState } from "react";
 import { db } from "../firebase/fbconfig";
-import { useContextSelector } from "use-context-selector";
-import { ContextAPI } from "../store/ContextProvider";
-import { useParams } from "react-router-dom";
 
 export const useGroupContent = () => {
   const [groupItemsData, setGroupItemsData] = useState<DocumentData | null>(null);
@@ -25,10 +22,6 @@ export const useGroupContent = () => {
       });
     }
   };
-
-  // addNewFieldModal
-  const currentUserId = useContextSelector(ContextAPI, (v) => v?.currentUserId);
-  //   const { groupId } = useParams();
 
   return { groupItemsData, displayGroupItemsHandler };
 };

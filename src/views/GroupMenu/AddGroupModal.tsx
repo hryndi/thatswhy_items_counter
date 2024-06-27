@@ -1,7 +1,6 @@
-import { Box, Button, Modal, Stack, TextField, TextFieldProps, Typography } from "@mui/material";
+import { Box, Button, Modal, Stack, TextField, Typography } from "@mui/material";
 import { ContextAPI } from "../../store/ContextProvider";
 import { useContextSelector } from "use-context-selector";
-import { useRef, useState } from "react";
 import { styled as styledMui } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +9,7 @@ const SWrapper = styledMui(Box)(({ theme }) => ({
   borderRadius: "1rem",
   overflow: "hidden",
 }));
-const SContentWrapper = styledMui(Box)(({ theme }) => ({
+const SContentWrapper = styledMui(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -23,7 +22,6 @@ const AddGroupModal = () => {
   const newGroupName = useContextSelector(ContextAPI, (v) => v?.newGroupName);
   const handleUserGroups = useContextSelector(ContextAPI, (v) => v?.handleUserGroups);
   const setNewGroupName = useContextSelector(ContextAPI, (v) => v?.setNewGroupName);
-  const addValueHandler = useContextSelector(ContextAPI, (v) => v?.addValueHandler);
 
   const handleClose = () => navigate("/");
   return (
@@ -48,29 +46,19 @@ const AddGroupModal = () => {
           </Typography>
         </Stack>
         <SContentWrapper>
-          <>
-            {/* <TextField
-             
-              value={newGroupName}
-              placeholder="e.g. Test Group"
-              variant="filled"
-            /> */}
-            <TextField
-              label={"Group name"}
-              placeholder="e.g. Group 1"
-              value={newGroupName}
-              onChange={(e) => setNewGroupName?.(e.target.value)}
-              inputProps={{ min: 0, style: { textAlign: "center", fontSize: "1.5rem" } }}
-            />
-          </>
+          <TextField
+            label={"Group name"}
+            placeholder="e.g. Group 1"
+            value={newGroupName}
+            onChange={(e) => setNewGroupName?.(e.target.value)}
+            inputProps={{ min: 0, style: { textAlign: "center", fontSize: "1.5rem" } }}
+          />
         </SContentWrapper>
         <Stack width={"100%"} display={"flex"} justifyContent={"end"} padding={3} paddingTop={0}>
           <Button onClick={handleUserGroups} variant="contained">
             Create new group
           </Button>
         </Stack>
-
-        {/* </Box> */}
       </SWrapper>
     </Modal>
   );

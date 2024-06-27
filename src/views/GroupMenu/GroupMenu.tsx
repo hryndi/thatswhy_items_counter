@@ -1,17 +1,13 @@
 import { Box, Button, Card, CardActionArea, Grid, Stack, Typography } from "@mui/material";
 import { ContextAPI } from "../../store/ContextProvider";
 import { useContextSelector } from "use-context-selector";
-import { useEffect, useState } from "react";
-import AddGroupModal from "./AddGroupModal";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import Fab from "@mui/material/Fab";
-import { setDefaultEventParameters } from "firebase/analytics";
-import { TGroupList } from "../../types";
+import { Outlet, useNavigate } from "react-router-dom";
+
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/fbconfig";
 import { styled as styledMui } from "@mui/material/styles";
 
-const SBox = styledMui(Box)(({ theme }) => ({
+const SBox = styledMui(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   height: "100%",
@@ -20,7 +16,7 @@ const SBox = styledMui(Box)(({ theme }) => ({
 }));
 const GroupMenu = () => {
   const navigate = useNavigate();
-  const { groupId } = useParams();
+
   const groupList = useContextSelector(ContextAPI, (v) => v?.groupList);
   const setCurrentGroup = useContextSelector(ContextAPI, (v) => v?.setCurrentGroup);
   const currentUserId = useContextSelector(ContextAPI, (v) => v?.currentUserId);

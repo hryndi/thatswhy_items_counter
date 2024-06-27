@@ -1,14 +1,7 @@
 import { useState, useMemo } from "react";
 import { TLogInValues, TUseLogInReturn, TSignInInputConstructor } from "../types";
-import { auth } from "../firebase/fbconfig";
-import { ContextAPI } from "../store/ContextProvider";
-import { useContextSelector } from "use-context-selector";
-import { useNavigate } from "react-router-dom";
 
 export const useLogIn = (): TUseLogInReturn => {
-  const navigate = useNavigate();
-  const setLoading = useContextSelector(ContextAPI, (v) => v?.setLoading);
-  const currentUser = useContextSelector(ContextAPI, (v) => v?.currentUser);
   const [logInValues, setLogInValues] = useState<TLogInValues>({ email: "", password: "" });
 
   const SignInInputConstructor: TSignInInputConstructor = useMemo(

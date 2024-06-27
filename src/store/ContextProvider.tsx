@@ -4,18 +4,15 @@ import { useAuth } from "../hooks/useAuth";
 import { useLogIn } from "../hooks/useLogIn";
 import { useLogOut } from "../hooks/useLogOut";
 import React, { useEffect, useState } from "react";
-import { v4 as uuid } from "uuid";
 
 import firebase from "firebase/compat/app";
 import { auth } from "../firebase/fbconfig";
-import { set } from "firebase/database";
 import { useGroupMenu } from "../hooks/useGroupMenu";
 import { useGroupContent } from "../hooks/useGroupContent";
 
 import { db } from "../firebase/fbconfig";
-import { DocumentData, collection, doc, getDocs, onSnapshot, query, setDoc } from "firebase/firestore";
-import { useNavigate, useParams } from "react-router-dom";
-import { ThemeContext } from "@emotion/react";
+import { collection, doc, onSnapshot, query, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 export const ContextAPI = createContext<null | TContextAPI>(null);
 

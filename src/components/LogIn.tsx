@@ -1,10 +1,10 @@
-import { FormControl, Button, TextField, Typography, Alert, Box, Stack } from "@mui/material";
+import { Button, TextField, Typography, Alert, Box, Stack } from "@mui/material";
 import { useContextSelector } from "use-context-selector";
 import { ContextAPI } from "../store/ContextProvider";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { styled as styledMui } from "@mui/material";
 
-const SBox = styledMui(Box)(({ theme }) => ({
+const SBox = styledMui(Box)(() => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -13,7 +13,7 @@ const SBox = styledMui(Box)(({ theme }) => ({
   width: "100%",
   padding: "1.5rem",
 }));
-const ContentWrapp = styledMui(Box)(({ theme }) => ({
+const ContentWrapp = styledMui(Box)(() => ({
   backgroundColor: "#fff",
   display: "flex",
   alignItems: "center",
@@ -28,10 +28,10 @@ const ContentWrapp = styledMui(Box)(({ theme }) => ({
   width: "100%",
   maxWidth: "500px",
 }));
-const STextField = styledMui(TextField)(({ theme }) => ({
+const STextField = styledMui(TextField)(() => ({
   width: "100%",
 }));
-const SForm = styledMui("form")(({ theme }) => ({
+const SForm = styledMui("form")(() => ({
   display: "flex",
   flexDirection: "column",
   gap: "0.8rem",

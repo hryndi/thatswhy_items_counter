@@ -1,14 +1,12 @@
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { ContextAPI } from "../../store/ContextProvider";
 import { useContextSelector } from "use-context-selector";
-import { db } from "../../firebase/fbconfig";
-import { DocumentData, collection, doc, getDoc, getDocs, onSnapshot, query, setDoc } from "firebase/firestore";
-import { useCallback, useEffect, useState } from "react";
+
 import { Box, Button, Card, CardActionArea, Grid, Stack, Typography } from "@mui/material";
 import GroupContentProvider from "../../store/GroupContentProvider";
 import { styled as styledMui } from "@mui/material/styles";
 
-const SBox = styledMui(Box)(({ theme }) => ({
+const SBox = styledMui(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   height: "100%",
