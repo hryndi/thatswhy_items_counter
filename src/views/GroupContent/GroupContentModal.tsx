@@ -1,7 +1,7 @@
 import { ContextAPI } from "../../store/ContextProvider";
 import { GroupContentAPI } from "../../store/GroupContentProvider";
 import { useContextSelector } from "use-context-selector";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { deleteField, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/fbconfig";
@@ -22,8 +22,8 @@ const SContentWrapper = styledMui(Box)(({ theme }) => ({
   padding: "4rem",
 }));
 const GroupContentModal = () => {
-  const { groupItemId } = useParams();
-
+  const { groupId } = useParams();
+  const navigate = useNavigate();
   const deleteItemHandler = useContextSelector(GroupContentAPI, (v) => v?.deleteItemHandler);
   const addValueHandler = useContextSelector(GroupContentAPI, (v) => v?.addValueHandler);
   const removeValueHandler = useContextSelector(GroupContentAPI, (v) => v?.removeValueHandler);
@@ -33,9 +33,8 @@ const GroupContentModal = () => {
   const isItemUrlCorrect = useContextSelector(GroupContentAPI, (v) => v?.isItemUrlCorrect);
   const itemName = useContextSelector(GroupContentAPI, (v) => v?.itemName);
   const itemValue = useContextSelector(GroupContentAPI, (v) => v?.itemValue);
-  const [open, setOpen] = useState(true);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+  const handleClose = () => navigate(`/${groupId}`);
   return (
     <>
       {" "}
@@ -43,7 +42,7 @@ const GroupContentModal = () => {
         <>
           <Modal
             sx={{ display: "grid", placeContent: "center", padding: 1 }}
-            open={open}
+            open={true}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"

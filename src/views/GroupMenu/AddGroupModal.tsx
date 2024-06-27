@@ -3,6 +3,7 @@ import { ContextAPI } from "../../store/ContextProvider";
 import { useContextSelector } from "use-context-selector";
 import { useRef, useState } from "react";
 import { styled as styledMui } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 const SWrapper = styledMui(Box)(({ theme }) => ({
   background: theme.palette.background.default,
@@ -18,17 +19,17 @@ const SContentWrapper = styledMui(Box)(({ theme }) => ({
 }));
 
 const AddGroupModal = () => {
+  const navigate = useNavigate();
   const newGroupName = useContextSelector(ContextAPI, (v) => v?.newGroupName);
   const handleUserGroups = useContextSelector(ContextAPI, (v) => v?.handleUserGroups);
   const setNewGroupName = useContextSelector(ContextAPI, (v) => v?.setNewGroupName);
   const addValueHandler = useContextSelector(ContextAPI, (v) => v?.addValueHandler);
-  const [open, setOpen] = useState(true);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+  const handleClose = () => navigate("/");
   return (
     <Modal
       sx={{ display: "grid", placeContent: "center", padding: 1 }}
-      open={open}
+      open={true}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"

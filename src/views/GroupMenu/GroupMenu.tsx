@@ -3,7 +3,7 @@ import { ContextAPI } from "../../store/ContextProvider";
 import { useContextSelector } from "use-context-selector";
 import { useEffect, useState } from "react";
 import AddGroupModal from "./AddGroupModal";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import Fab from "@mui/material/Fab";
 import { setDefaultEventParameters } from "firebase/analytics";
 import { TGroupList } from "../../types";
@@ -20,14 +20,17 @@ const SBox = styledMui(Box)(({ theme }) => ({
 }));
 const GroupMenu = () => {
   const navigate = useNavigate();
-
+  const { groupId } = useParams();
   const groupList = useContextSelector(ContextAPI, (v) => v?.groupList);
   const setCurrentGroup = useContextSelector(ContextAPI, (v) => v?.setCurrentGroup);
   const currentUserId = useContextSelector(ContextAPI, (v) => v?.currentUserId);
+  // const setCurrentPageName = useContextSelector(ContextAPI, (v) => v?.setCurrentPageName);
 
   const deleteGroupHandler = async (docId: string) => {
     currentUserId && (await deleteDoc(doc(db, "user_groups", currentUserId, "groups", docId)));
   };
+  // groupId && setCurrentPageName?.(groupId);
+
   return (
     <>
       <SBox>
@@ -63,8 +66,13 @@ const GroupMenu = () => {
                   <Button
                     onClick={() => deleteGroupHandler(item.name)}
                     size="small"
-                    color="primary"
-                    sx={{ padding: "1rem" }}
+                    variant="contained"
+                    sx={{
+                      padding: "1rem",
+                      backgroundColor: "#fc3b3bc6",
+                      borderTopLeftRadius: 0,
+                      borderBottomLeftRadius: 0,
+                    }}
                   >
                     Delete
                   </Button>
