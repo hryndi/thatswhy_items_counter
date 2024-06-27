@@ -1,7 +1,5 @@
 import { Box, Button, Modal, Stack, TextField, Typography } from "@mui/material";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { db } from "../../firebase/fbconfig";
-import { doc, setDoc } from "firebase/firestore";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useContextSelector } from "use-context-selector";
 import { GroupContentAPI } from "../../store/GroupContentProvider";
@@ -12,7 +10,7 @@ const SWrapper = styledMui(Box)(({ theme }) => ({
   borderRadius: "1rem",
   overflow: "hidden",
 }));
-const SContentWrapper = styledMui(Box)(({ theme }) => ({
+const SContentWrapper = styledMui(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",

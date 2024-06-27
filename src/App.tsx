@@ -1,6 +1,5 @@
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import PrivateRoute from "./components/PrivateRoute";
 import ContextProvider from "./store/ContextProvider";
 import { styled as styledMui } from "@mui/material";
 
