@@ -82,6 +82,7 @@ const LogIn = () => {
                   variant={item.variant}
                   value={item.value}
                   onChange={item.onChange}
+                  type={item.type}
                 />
               </Box>
             ))}

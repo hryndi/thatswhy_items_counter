@@ -15,6 +15,9 @@ const SContentWrapper = styledMui(Box)(() => ({
   alignItems: "center",
   gap: 40,
   padding: "4rem",
+  "@media(max-width:400px)": {
+    padding: "3rem",
+  },
 }));
 
 const AddGroupModal = () => {
@@ -51,7 +54,7 @@ const AddGroupModal = () => {
             placeholder="e.g. Group 1"
             value={newGroupName}
             onChange={(e) => setNewGroupName?.(e.target.value)}
-            inputProps={{ min: 0, style: { textAlign: "center", fontSize: "1.5rem" } }}
+            inputProps={{ min: 0, style: { textAlign: "center", fontSize: "1.2rem" } }}
           />
         </SContentWrapper>
         <Stack width={"100%"} display={"flex"} justifyContent={"end"} padding={3} paddingTop={0}>

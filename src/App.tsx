@@ -9,6 +9,7 @@ const SBox = styledMui(Box)(({ theme }) => ({
   alignItems: "center",
   flexDirection: "column",
   height: "100svh",
+  overflow: "auto",
 }));
 
 function App() {

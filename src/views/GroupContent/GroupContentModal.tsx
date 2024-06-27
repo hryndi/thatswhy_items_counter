@@ -16,6 +16,9 @@ const SContentWrapper = styledMui(Box)(() => ({
   alignItems: "center",
   gap: 40,
   padding: "4rem",
+  "@media(max-width:400px)": {
+    padding: "3rem",
+  },
 }));
 const GroupContentModal = () => {
   const { groupId } = useParams();

@@ -30,7 +30,14 @@ const GroupContent = () => {
   return (
     <>
       <SBox>
-        <Stack direction={"row"} justifyContent={"space-between"} marginBottom={3}>
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+          marginBottom={3}
+          flexWrap={"wrap"}
+          alignItems="center"
+          gap={2}
+        >
           <Button
             sx={{ width: "170px" }}
             color="secondary"
@@ -42,7 +49,20 @@ const GroupContent = () => {
           >
             Go back
           </Button>
-          <Box display="flex" gap={2}>
+          <Box
+            display="flex"
+            gap={2}
+            sx={{
+              "@media(max-width:530px)": {
+                flexDirection: "column",
+                alignItems: "flex-end",
+              },
+              "@media(max-width:403px)": {
+                flexDirection: "column",
+                alignItems: "baseline",
+              },
+            }}
+          >
             <Button sx={{ width: "170px" }} variant="contained" onClick={() => navigate(`/${groupId}/new-field`)}>
               Add New Field
             </Button>

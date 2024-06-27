@@ -84,6 +84,7 @@ export type TSignUpInputConstructor = Array<
   InputHTMLAttributes<HTMLInputElement> & {
     typography: string;
     variant: TextFieldVariants;
+
     // error: boolean;
     // helperText: string | undefined;
   }
