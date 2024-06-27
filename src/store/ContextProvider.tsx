@@ -18,6 +18,7 @@ export const ContextAPI = createContext<null | TContextAPI>(null);
 
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
+
   const [currentUser, setCurrentUser] = useState<firebase.User | undefined | null>(undefined);
   const [currentUserId, setCurrentUserId] = useState<string | undefined | null>(undefined);
   const [loading, setLoading] = useState<boolean>(true);

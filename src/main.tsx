@@ -17,6 +17,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Register from "./components/Register.tsx";
 import GroupContentModal from "./views/GroupContent/GroupContentModal.tsx";
 import AddNewFieldModal from "./views/GroupContent/AddNewFieldModal.tsx";
+import PrintContent from "./components/PrintContent.tsx";
 
 const theme = createTheme({
   palette: {
@@ -112,6 +113,10 @@ const router = createBrowserRouter(
                 {
                   path: "/:groupId/new-field",
                   element: <AddNewFieldModal />,
+                },
+                {
+                  path: "/:groupId/print-content",
+                  element: <PrintContent />,
                 },
               ],
             },
