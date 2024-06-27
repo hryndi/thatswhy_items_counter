@@ -63,12 +63,15 @@ const LogIn = () => {
                   {currentUser.email}
                   <br />
                   <div style={{ marginTop: "0.3rem" }}>
-                    Go to: <Link to={"/"}> Homepage</Link>
+                    <Typography variant="body1" fontWeight={500} display={"inline-block"}>
+                      Go to:
+                    </Typography>
+                    <Link to={"/"}> Homepage</Link>
                   </div>
                 </Alert>
-                {logInError && <Alert severity="error">{logInError}</Alert>}
               </>
             )}
+            {logInError && <Alert severity="error">{logInError}</Alert>}
 
             {SignInInputConstructor?.map((item) => (
               <Box>

@@ -26,6 +26,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [groupList, setGroupList] = useState<TGroupList[] | null>(null);
   const [currentGroup, setCurrentGroup] = useState<string>("");
+  const [currentPageName, setCurrentPageName] = useState<string>("Menu");
 
   const { signUpValues, SignUpInputConstructor, handleRegister, signUpError } = useAuth();
   const { logInValues, SignInInputConstructor } = useLogIn();
@@ -91,6 +92,8 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const vals: TContextAPI = {
+    currentPageName,
+    setCurrentPageName,
     currentGroup,
     setCurrentGroup,
     groupItemsData,

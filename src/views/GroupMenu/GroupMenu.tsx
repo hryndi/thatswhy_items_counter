@@ -1,15 +1,23 @@
-import { Button } from "@mui/material";
+import { Box, Button, Card, CardActionArea, Grid, Stack, Typography } from "@mui/material";
 import { ContextAPI } from "../../store/ContextProvider";
 import { useContextSelector } from "use-context-selector";
 import { useEffect, useState } from "react";
 import AddGroupModal from "./AddGroupModal";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-
+import Fab from "@mui/material/Fab";
 import { setDefaultEventParameters } from "firebase/analytics";
 import { TGroupList } from "../../types";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/fbconfig";
+import { styled as styledMui } from "@mui/material/styles";
 
+const SBox = styledMui(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+  width: "100%",
+  padding: "1.5rem",
+}));
 const GroupMenu = () => {
   const navigate = useNavigate();
 
@@ -22,24 +30,52 @@ const GroupMenu = () => {
   };
   return (
     <>
-      <h1>GroupMenu Page</h1>
-      <ul>
-        {groupList?.map((item) => (
-          <li id={item.id} style={{ display: "flex", gap: "1rem", marginBlock: "0.5rem" }}>
-            <Link to={item.id} onClick={() => setCurrentGroup?.(item.name)}>
-              {item.name}
-            </Link>
-            <Button variant={"contained"} onClick={() => deleteGroupHandler(item.name)}>
-              Delete Group
-            </Button>
-          </li>
-        ))}
-      </ul>
+      <SBox>
+        <Stack direction={"row"} justifyContent={"flex-start"} marginBottom={3}>
+          <Button sx={{ width: "150px" }} variant="contained" onClick={() => navigate("/add-group")}>
+            Create Group
+          </Button>
+        </Stack>
+        <Grid container spacing={2} overflow={"auto"}>
+          {groupList?.map((item) => {
+            return (
+              <Grid item xs={12} id={item.id}>
+                <Card sx={{ display: "flex", width: "100%" }}>
+                  <CardActionArea
+                    sx={{ display: "flex", justifyContent: "flex-start", gap: "0.8rem" }}
+                    onClick={() => {
+                      navigate(item.id);
+                      setCurrentGroup?.(item.name);
+                    }}
+                  >
+                    <Box
+                      height="100%"
+                      width={60}
+                      sx={{ backgroundColor: "#e5fdfc", display: "grid", placeContent: "center" }}
+                    >
+                      <Typography fontSize={28}>✅</Typography>
+                    </Box>
+                    <Typography sx={{ wordBreak: "break-all" }} gutterBottom variant="h6" component="div">
+                      {item.name}
+                    </Typography>
+                  </CardActionArea>
 
-      <Button variant="contained" onClick={() => navigate("/add-group")}>
-        Create Group
-      </Button>
-      <Outlet />
+                  <Button
+                    onClick={() => deleteGroupHandler(item.name)}
+                    size="small"
+                    color="primary"
+                    sx={{ padding: "1rem" }}
+                  >
+                    Delete
+                  </Button>
+                </Card>
+              </Grid>
+            );
+          })}
+        </Grid>
+
+        <Outlet />
+      </SBox>
     </>
   );
 };

@@ -8,7 +8,7 @@ import LogIn from "./components/LogIn.tsx";
 import GroupMenu from "./views/GroupMenu/GroupMenu.tsx";
 import GroupContent from "./views/GroupContent/GroupContent.tsx";
 import PrivateRoute from "./components/PrivateRoute.tsx";
-import Dashboard from "./views/Dashboard.tsx";
+import Dashboard from "./components/Dashboard.tsx";
 import AddGroupModal from "./views/GroupMenu/AddGroupModal.tsx";
 // MUI
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -26,7 +26,8 @@ const theme = createTheme({
       light: "#b4c3c3",
     },
     secondary: {
-      main: "#4eebde",
+      main: "#3becdd",
+      // main: "#4eebde",
       light: "#caf9f5",
       dark: "#35e2d1",
     },
@@ -46,6 +47,28 @@ const theme = createTheme({
     },
     body1: {
       fontSize: "0.95rem",
+    },
+    h5: {
+      fontSize: "1.25rem",
+    },
+    h4: {
+      fontSize: "1.9rem",
+    },
+  },
+  components: {
+    MuiInputLabel: {
+      defaultProps: {
+        sx: {
+          fontSize: "1.25rem",
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      defaultProps: {
+        sx: {
+          fontSize: "1.25rem",
+        },
+      },
     },
   },
 });

@@ -2,11 +2,25 @@ import { ContextAPI } from "../../store/ContextProvider";
 import { GroupContentAPI } from "../../store/GroupContentProvider";
 import { useContextSelector } from "use-context-selector";
 import { useParams } from "react-router-dom";
-import { Button, TextField } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { deleteField, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/fbconfig";
 import { useEffect, useState } from "react";
+import Modal from "@mui/material/Modal";
+import { styled as styledMui } from "@mui/material/styles";
 
+const SWrapper = styledMui(Box)(({ theme }) => ({
+  background: theme.palette.background.default,
+  borderRadius: "1rem",
+  overflow: "hidden",
+}));
+const SContentWrapper = styledMui(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: 40,
+  padding: "4rem",
+}));
 const GroupContentModal = () => {
   const { groupItemId } = useParams();
 
@@ -19,47 +33,80 @@ const GroupContentModal = () => {
   const isItemUrlCorrect = useContextSelector(GroupContentAPI, (v) => v?.isItemUrlCorrect);
   const itemName = useContextSelector(GroupContentAPI, (v) => v?.itemName);
   const itemValue = useContextSelector(GroupContentAPI, (v) => v?.itemValue);
-
+  const [open, setOpen] = useState(true);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
     <>
       {" "}
       {isItemUrlCorrect ? (
         <>
-          <h1>GroupContentModal page is correct</h1>
-          <div style={{ display: "flex", flexDirection: "column", marginLeft: "1.5rem" }}>
-            <h3>Edit {itemName}</h3>
-            <h3>Value: {itemValue}</h3>
-            <br />
-            <div style={{ display: "flex" }}>
-              <h4>Delete Item:</h4>
-              <Button variant="contained" onClick={deleteItemHandler}>
-                Del
-              </Button>
-            </div>
-            <br />
-            <div style={{ display: "flex" }}>
-              <h4>add 1: </h4>
-              <Button variant="contained" onClick={addValueHandler}>
-                add
-              </Button>
-            </div>
-            <br />
-            <div style={{ display: "flex" }}>
-              <h4>remove 1</h4>
-              <Button onClick={removeValueHandler} variant="contained">
-                remove
-              </Button>
-            </div>
-            <br />
-            <TextField
-              placeholder="type in value to add"
-              value={customValue}
-              onChange={(e) => setCustomValue?.(+e.target.value)}
-            />
-            <Button variant={"contained"} onClick={addCustomValueHandler}>
-              Add
-            </Button>
-          </div>
+          <Modal
+            sx={{ display: "grid", placeContent: "center", padding: 1 }}
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <>
+              <SWrapper>
+                <Stack
+                  sx={{
+                    backgroundColor: "#053737",
+                    paddingInline: 2,
+                    paddingBlock: 1,
+                  }}
+                >
+                  <Typography variant="h4" color={"#e1f7e6"} fontWeight={"bold"} textAlign={"center"}>
+                    {itemName}
+                  </Typography>
+                </Stack>
+                <SContentWrapper>
+                  <Box sx={{ display: "flex" }}>
+                    <Button variant="contained" sx={{ fontWeight: 600 }} onClick={addValueHandler} color="secondary">
+                      add
+                    </Button>
+                    <Typography variant="h4" fontWeight={500} marginInline={2}>
+                      {itemValue}
+                    </Typography>
+                    <Button onClick={removeValueHandler} variant="contained" color="error">
+                      remove
+                    </Button>
+                  </Box>
+
+                  <Box display={"flex"} flexDirection={"column"}>
+                    <Typography variant="h5" fontWeight={600}></Typography>
+                    <Box display={"grid"} gap={1}>
+                      <TextField
+                        label={"Add a custom value"}
+                        placeholder="type in value to add"
+                        value={customValue}
+                        onChange={(e) => setCustomValue?.(+e.target.value)}
+                        inputProps={{ min: 0, style: { textAlign: "center", fontSize: "1.5rem" } }}
+                      />
+
+                      <Button
+                        sx={{ width: "100%", fontWeight: 600 }}
+                        variant={"contained"}
+                        color="secondary"
+                        onClick={addCustomValueHandler}
+                      >
+                        Add
+                      </Button>
+                    </Box>
+                  </Box>
+                </SContentWrapper>
+                <Button
+                  sx={{ width: "-webkit-fill-available", margin: "1.5rem" }}
+                  variant="contained"
+                  onClick={deleteItemHandler}
+                  color="error"
+                >
+                  Delete Item
+                </Button>
+              </SWrapper>
+            </>
+          </Modal>
         </>
       ) : (
         <h2>Page not found</h2>

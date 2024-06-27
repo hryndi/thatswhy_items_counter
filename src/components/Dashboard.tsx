@@ -8,12 +8,17 @@ const Dashboard = () => {
   const logout = useContextSelector(ContextAPI, (v) => v?.handleLogout);
   return (
     <>
-      <Typography variant="h2">Profile</Typography>
-      <Typography variant="body1"> Email: {currentUser?.email} </Typography>
-      <Button variant="contained" onClick={() => navigate("/update-profile")}>
-        Update profile
+      <Typography variant="h2" marginTop={5}>
+        Profile
+      </Typography>
+      <Typography variant="h5" marginTop={3}>
+        {" "}
+        Email: {currentUser?.email}{" "}
+      </Typography>
+
+      <Button variant="contained" onClick={logout} sx={{ marginTop: 1.5 }}>
+        Log Out
       </Button>
-      <Button onClick={logout}>Log Out</Button>
     </>
   );
 };

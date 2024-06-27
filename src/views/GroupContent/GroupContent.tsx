@@ -4,8 +4,18 @@ import { useContextSelector } from "use-context-selector";
 import { db } from "../../firebase/fbconfig";
 import { DocumentData, collection, doc, getDoc, getDocs, onSnapshot, query, setDoc } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
-import { Button } from "@mui/material";
+import { Box, Button, Card, CardActionArea, Grid, Stack, Typography } from "@mui/material";
 import GroupContentProvider from "../../store/GroupContentProvider";
+import { styled as styledMui } from "@mui/material/styles";
+
+const SBox = styledMui(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+  width: "100%",
+  padding: "1.5rem",
+}));
+
 const GroupContent = () => {
   const { groupId } = useParams();
 
@@ -20,28 +30,64 @@ const GroupContent = () => {
 
   return (
     <>
-      <GroupContentProvider>
-        {isGroupContentUrlCorrect ? (
-          <>
-            <h1> GroupContent page</h1>
-            <ul>
-              {groupItemsData &&
-                Object.entries(groupItemsData).map(([label, value]) => (
-                  <li id={label}>
-                    <Link to={`/${groupId}/${label.toLowerCase().replace(/ /g, "-")}`}>{`${label}: ${value}`}</Link>
-                  </li>
-                ))}
-            </ul>
-            <Outlet />
-            <h3>Create new Field:</h3>
-            <Button variant={"contained"} onClick={() => navigate(`/${groupId}/new-field`)}>
-              Create new field
-            </Button>
-          </>
-        ) : (
-          <h2>Page not found</h2>
-        )}
-      </GroupContentProvider>
+      <SBox>
+        <Stack direction={"row"} justifyContent={"flex-start"} marginBottom={3}>
+          <Button sx={{ width: "170px" }} variant="contained" onClick={() => navigate(`/${groupId}/new-field`)}>
+            Add New Field
+          </Button>
+        </Stack>
+        <GroupContentProvider>
+          {isGroupContentUrlCorrect ? (
+            <>
+              <Grid container spacing={2} overflow={"auto"}>
+                {groupItemsData &&
+                  Object.entries(groupItemsData).map(([label, value]) => (
+                    //   <Link to={}>{`${label}: ${value}`}</Link>
+
+                    <Grid item xs={12} id={label}>
+                      <Card sx={{ display: "flex", width: "100%", height: 60 }}>
+                        <CardActionArea
+                          sx={{ display: "flex", justifyContent: "flex-start", gap: "0.8rem" }}
+                          onClick={() => {
+                            navigate(`/${groupId}/${label.toLowerCase().replace(/ /g, "-")}`);
+                            // navigate(item.id);
+                            // setCurrentGroup?.(item.name);
+                          }}
+                        >
+                          <Box
+                            height="100%"
+                            width={60}
+                            sx={{ backgroundColor: "#e5fdfc", display: "grid", placeContent: "center" }}
+                          >
+                            <Typography fontSize={28}>✅</Typography>
+                          </Box>
+                          <Box
+                            sx={{
+                              width: "100%",
+                              paddingInline: "1rem",
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <Typography sx={{ wordBreak: "break-all" }} variant="h6" component="div">
+                              {label}
+                            </Typography>
+                            <Typography sx={{ width: "3rem" }} fontWeight={600} variant="h5" component="div">
+                              {value}
+                            </Typography>
+                          </Box>
+                        </CardActionArea>
+                      </Card>
+                    </Grid>
+                  ))}
+              </Grid>
+              <Outlet />
+            </>
+          ) : (
+            <h2>Page not found</h2>
+          )}
+        </GroupContentProvider>
+      </SBox>
     </>
   );
 };
