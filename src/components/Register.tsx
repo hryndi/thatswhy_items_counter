@@ -53,7 +53,9 @@ const Register = () => {
     <>
       <SBox>
         <ContentWrapp>
-          <h1>Register page</h1>
+          <Typography variant="h4" color={"#092526ee"} fontWeight={700}>
+            Register
+          </Typography>
           <SForm onSubmit={(e) => handleRegister?.(e)}>
             {currentUser && (
               <>
@@ -76,7 +78,7 @@ const Register = () => {
 
             {SignUpInputConstructor?.map((item) => (
               <Box>
-                <Typography variant="h6" fontWeight={500}>
+                <Typography variant="h6" color={"#092526ee"} fontWeight={600}>
                   {item.typography}
                 </Typography>
                 <STextField
