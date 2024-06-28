@@ -48,7 +48,10 @@ const LogIn = () => {
     <>
       <SBox>
         <ContentWrapp>
-          <h1>Log In page</h1>
+          <Typography variant="h4" fontWeight={700} color={"#092526ee"}>
+            Log In
+          </Typography>
+
           <SForm
             onSubmit={(e) => {
               handleLogIn?.(e);
@@ -75,7 +78,9 @@ const LogIn = () => {
 
             {SignInInputConstructor?.map((item) => (
               <Box>
-                <Typography variant="h6">{item.typography}</Typography>
+                <Typography color={"#092526ee"} fontWeight={600} variant="h6">
+                  {item.typography}
+                </Typography>
                 <STextField
                   id={item.id}
                   placeholder={item.placeholder}
@@ -91,7 +96,7 @@ const LogIn = () => {
             </Button>
           </SForm>
           <Stack direction={"row"} justifyContent={"flex-start"} marginBlock={"0.5rem"} width={"100%"}>
-            <Typography>
+            <Typography color={"#092526ee"}>
               Doesn't have an account yet? <Link to={"/sign-up"}>Register</Link>
             </Typography>
           </Stack>
