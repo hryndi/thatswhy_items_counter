@@ -12,6 +12,10 @@ const SBox = styledMui(Box)(() => ({
   height: "100%",
   width: "100%",
   padding: "1.5rem",
+  "@media(max-height:500px)": {
+    justifyContent: "space-evenly",
+    overflow: "auto",
+  },
 }));
 const ContentWrapp = styledMui(Box)(() => ({
   backgroundColor: "#fff",
