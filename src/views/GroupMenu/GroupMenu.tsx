@@ -20,13 +20,12 @@ const GroupMenu = () => {
   const groupList = useContextSelector(ContextAPI, (v) => v?.groupList);
   const setCurrentGroup = useContextSelector(ContextAPI, (v) => v?.setCurrentGroup);
   const currentUserId = useContextSelector(ContextAPI, (v) => v?.currentUserId);
-  // const setCurrentPageName = useContextSelector(ContextAPI, (v) => v?.setCurrentPageName);
 
   const deleteGroupHandler = async (docId: string) => {
     currentUserId && (await deleteDoc(doc(db, "user_groups", currentUserId, "groups", docId)));
   };
-  // groupId && setCurrentPageName?.(groupId);
 
+  const setCurrentPageName = useContextSelector(ContextAPI, (v) => v?.setCurrentPageName);
   return (
     <>
       <SBox>
@@ -45,6 +44,7 @@ const GroupMenu = () => {
                     onClick={() => {
                       navigate(item.id);
                       setCurrentGroup?.(item.name);
+                      setCurrentPageName?.(item.name);
                     }}
                   >
                     <Box

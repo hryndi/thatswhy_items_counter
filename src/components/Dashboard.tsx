@@ -18,7 +18,14 @@ const Dashboard = () => {
         Email: {currentUser?.email}{" "}
       </Typography>
       <Box display={"flex"} gap={2}>
-        <Button variant="contained" onClick={() => navigate("/")} sx={{ marginTop: 1.5 }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            navigate("/");
+            setCurrentPageName?.("Menu");
+          }}
+          sx={{ marginTop: 1.5 }}
+        >
           go to menu
         </Button>
 

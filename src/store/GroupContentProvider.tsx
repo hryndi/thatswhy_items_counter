@@ -13,9 +13,10 @@ const GroupContentProvider = ({ children }: { children: React.ReactNode }) => {
   // addNewField
   const { groupId } = useParams();
   const currentUserId = useContextSelector(ContextAPI, (v) => v?.currentUserId);
+  const currentGroup = useContextSelector(ContextAPI, (v) => v?.currentGroup);
 
   const newFieldHandler = async (newFieldName: string, newFieldValue: number) => {
-    const itemRef = groupId && currentUserId && doc(db, "user_groups", currentUserId, "groups", groupId);
+    const itemRef = currentGroup && currentUserId && doc(db, "user_groups", currentUserId, "groups", currentGroup);
 
     try {
       itemRef &&
