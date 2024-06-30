@@ -26,7 +26,7 @@ const GroupContent = () => {
   console.log(groupItemsData);
 
   const setCurrentPageName = useContextSelector(ContextAPI, (v) => v?.setCurrentPageName);
-  groupId && setCurrentPageName?.(groupId);
+
   return (
     <>
       <SBox>
