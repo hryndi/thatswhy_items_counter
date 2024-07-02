@@ -11,11 +11,15 @@ export const useGroupContent = () => {
 
       onSnapshot(groupsRef, (querySnapshot) => {
         querySnapshot.docs.forEach((doc) => {
-          if (doc.id === groupId) {
+          console.log("docId: " + doc.id);
+          console.log("groupId: " + groupId);
+          console.log(groupItemsData);
+
+          if (doc.id.replace(/ /g, "-") === groupId) {
             console.log(doc);
             // Only update state if data has changed
             if (!groupItemsData || JSON.stringify(doc.data()) !== JSON.stringify(groupItemsData)) {
-              setGroupItemsData(doc.data());
+              setGroupItemsData({ ...doc.data() });
             }
           }
         });

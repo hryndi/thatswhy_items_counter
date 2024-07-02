@@ -68,7 +68,7 @@ const GroupContentProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
   const addValueHandler = async () => {
-    let tempVal = itemValue;
+    const tempVal = itemValue;
     const itemRef = groupId && currentUserId && doc(db, "user_groups", currentUserId, "groups", groupId);
 
     itemRef && console.log("groupId: ", groupId, "itemName: ", itemName);
@@ -88,7 +88,7 @@ const GroupContentProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const removeValueHandler = async () => {
-    let tempVal = itemValue;
+    const tempVal = itemValue;
     const itemRef = groupId && currentUserId && doc(db, "user_groups", currentUserId, "groups", groupId);
 
     itemRef && console.log("groupId: ", groupId, "itemName: ", itemName);
@@ -109,7 +109,7 @@ const GroupContentProvider = ({ children }: { children: React.ReactNode }) => {
   console.log(groupId);
 
   const addCustomValueHandler = async () => {
-    let tempVal = itemValue;
+    const tempVal = itemValue;
     const itemRef = groupId && currentUserId && doc(db, "user_groups", currentUserId, "groups", groupId);
 
     itemRef && console.log("groupId: ", groupId, "itemName: ", itemName);
