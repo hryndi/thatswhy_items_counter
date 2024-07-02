@@ -16,10 +16,6 @@ const PrintContent = () => {
   const { groupId } = useParams();
 
   const groupItemsData = useContextSelector(ContextAPI, (v) => v?.groupItemsData);
-  const displayGroupItemsHandler = useContextSelector(ContextAPI, (v) => v?.displayGroupItemsHandler);
-  const currentUserId = useContextSelector(ContextAPI, (v) => v?.currentUserId);
-  groupId && currentUserId && displayGroupItemsHandler?.(groupId, currentUserId);
-  console.log(groupItemsData);
 
   return (
     <>

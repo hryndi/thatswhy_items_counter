@@ -6,6 +6,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/fbconfig";
 import { styled as styledMui } from "@mui/material/styles";
+import { useEffect } from "react";
 
 const SBox = styledMui(Box)(() => ({
   display: "flex",
@@ -19,8 +20,11 @@ const GroupMenu = () => {
 
   const groupList = useContextSelector(ContextAPI, (v) => v?.groupList);
   const setCurrentGroup = useContextSelector(ContextAPI, (v) => v?.setCurrentGroup);
+
+  const currentGroup = useContextSelector(ContextAPI, (v) => v?.currentGroup);
   const currentUserId = useContextSelector(ContextAPI, (v) => v?.currentUserId);
 
+  useEffect(() => console.log(currentGroup), [currentGroup]);
   const deleteGroupHandler = async (docId: string) => {
     currentUserId && (await deleteDoc(doc(db, "user_groups", currentUserId, "groups", docId)));
   };
@@ -42,9 +46,10 @@ const GroupMenu = () => {
                   <CardActionArea
                     sx={{ display: "flex", justifyContent: "flex-start", gap: "0.8rem" }}
                     onClick={() => {
+                      setCurrentGroup?.(item.name); // Use functional update
+                      setCurrentPageName?.(item.name as string);
+
                       navigate(item.id);
-                      setCurrentGroup?.(item.name);
-                      setCurrentPageName?.(item.name);
                     }}
                   >
                     <Box

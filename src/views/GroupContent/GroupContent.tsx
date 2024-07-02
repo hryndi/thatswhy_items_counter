@@ -18,12 +18,9 @@ const GroupContent = () => {
   const { groupId } = useParams();
   const navigate = useNavigate();
   const groupItemsData = useContextSelector(ContextAPI, (v) => v?.groupItemsData);
-  const displayGroupItemsHandler = useContextSelector(ContextAPI, (v) => v?.displayGroupItemsHandler);
+
   const groupList = useContextSelector(ContextAPI, (v) => v?.groupList);
   const isGroupContentUrlCorrect = groupList?.find((group) => group.id === groupId);
-  const currentUserId = useContextSelector(ContextAPI, (v) => v?.currentUserId);
-  groupId && currentUserId && displayGroupItemsHandler?.(groupId, currentUserId);
-  console.log(groupItemsData);
 
   const setCurrentPageName = useContextSelector(ContextAPI, (v) => v?.setCurrentPageName);
 

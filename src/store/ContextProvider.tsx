@@ -8,17 +8,18 @@ import React, { useEffect, useState } from "react";
 import firebase from "firebase/compat/app";
 import { auth } from "../firebase/fbconfig";
 import { useGroupMenu } from "../hooks/useGroupMenu";
-import { useGroupContent } from "../hooks/useGroupContent";
+// import { useGroupContent } from "../hooks/useGroupContent";
 
 import { db } from "../firebase/fbconfig";
-import { collection, doc, onSnapshot, query, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { DocumentData, collection, doc, onSnapshot, query, setDoc } from "firebase/firestore";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const ContextAPI = createContext<null | TContextAPI>(null);
 
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
-
+  const { groupId } = useParams();
+  const [groupItemsData, setGroupItemsData] = useState<DocumentData | null>(null);
   const [currentUser, setCurrentUser] = useState<firebase.User | undefined | null>(undefined);
   const [currentUserId, setCurrentUserId] = useState<string | undefined | null>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
@@ -30,7 +31,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const { logInValues, SignInInputConstructor } = useLogIn();
   const { handleLogout, logOutError } = useLogOut();
   const { newGroupName, isShowGroupCreator, setIsShowGroupCreator, setNewGroupName } = useGroupMenu();
-  const { displayGroupItemsHandler, groupItemsData } = useGroupContent();
+  // const { displayGroupItemsHandler, groupItemsData } = useGroupContent();
 
   const handleUserGroups = () => {
     if (newGroupName === "" || newGroupName.length > 20) {
@@ -80,6 +81,24 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       // setGroupList(getValue.docs.map((doc) => ({ id: doc.id })));
     }
   };
+
+  const displayGroupItemsHandler = (groupId: string, currentUserId: string | null | undefined) => {
+    const groupsRef = doc(db, `user_groups/${currentUserId}/groups/${currentGroup}`);
+
+    onSnapshot(groupsRef, (querySnapshot) => {
+      console.log("docId: " + querySnapshot.id);
+      console.log("groupId: " + groupId);
+      console.log(groupItemsData);
+
+      if (querySnapshot.id.replace(/ /g, "-") === groupId) {
+        // Only update state if data has changed
+        if (!groupItemsData || JSON.stringify(querySnapshot.data()) !== JSON.stringify(groupItemsData)) {
+          setGroupItemsData({ ...querySnapshot.data() });
+        }
+      }
+    });
+  };
+
   const addValueHandler = () => {
     if (currentUserId) {
       const groupRef = doc(db, "user_groups", currentUserId, "groups", newGroupName);
@@ -136,7 +155,13 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       getValue();
     }
   }, [currentUserId]);
-  console.log(groupList);
+
+  useEffect(() => {
+    if (currentUserId && groupId) {
+      displayGroupItemsHandler?.(groupId, currentUserId);
+    }
+  }, [currentUserId, groupId]);
+
   return <ContextAPI.Provider value={vals}> {!loading && children} </ContextAPI.Provider>;
 };
 export default ContextProvider;
