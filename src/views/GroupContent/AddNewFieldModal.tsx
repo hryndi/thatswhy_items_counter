@@ -22,7 +22,7 @@ const AddNewFieldModal = () => {
   const navigate = useNavigate();
   const { groupId } = useParams();
   const [newFieldName, setNewFieldName] = useState("");
-  const [newFieldValue, setNewFieldValue] = useState<null | number>(null);
+  const [newFieldValue, setNewFieldValue] = useState<number>(0);
   const newFieldHandler = useContextSelector(GroupContentAPI, (v) => v?.newFieldHandler);
 
   const handleClose = () => navigate(`/${groupId}`);
@@ -57,8 +57,9 @@ const AddNewFieldModal = () => {
           {/* <TextField   /> */}
           <TextField
             label={"default value"}
+            type="number"
             placeholder="e.g. Field 1"
-            value={newFieldValue ? newFieldValue : 0}
+            value={newFieldValue}
             onChange={(e) => setNewFieldValue(+e.target.value)}
             inputProps={{ min: 0, style: { textAlign: "center", fontSize: "1.5rem" } }}
           />
@@ -67,7 +68,7 @@ const AddNewFieldModal = () => {
         <Stack width={"100%"} display={"flex"} justifyContent={"end"} padding={3} paddingTop={0}>
           <Button
             onClick={() => {
-              newFieldValue && newFieldHandler?.(newFieldName, newFieldValue);
+              newFieldHandler?.(newFieldName, newFieldValue);
               navigate(`/${groupId}`);
             }}
             variant="contained"

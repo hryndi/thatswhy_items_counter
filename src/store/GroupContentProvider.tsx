@@ -17,7 +17,7 @@ const GroupContentProvider = ({ children }: { children: React.ReactNode }) => {
 
   const newFieldHandler = async (newFieldName: string, newFieldValue: number) => {
     const itemRef = currentGroup && currentUserId && doc(db, "user_groups", currentUserId, "groups", currentGroup);
-
+    console.log(itemRef);
     try {
       itemRef &&
         (await setDoc(
@@ -44,7 +44,7 @@ const GroupContentProvider = ({ children }: { children: React.ReactNode }) => {
     groupItemsData &&
     Object.keys(groupItemsData).map((item) => typeof item === "string" && item.toLowerCase().replace(/ /g, "-"));
   const isItemUrlCorrect = itemsUrls?.find((url) => url === groupItemId);
-  console.log(itemsUrls);
+
   useEffect(() => {
     groupItemsData &&
       groupItemId &&
@@ -54,7 +54,8 @@ const GroupContentProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   const deleteItemHandler = async () => {
-    const itemRef = groupId && currentUserId && doc(db, "user_groups", currentUserId, "groups", groupId);
+    const itemRef =
+      groupId && currentUserId && currentGroup && doc(db, "user_groups", currentUserId, "groups", currentGroup);
 
     itemRef && console.log("currGroup: ", groupId, "itemName: ", itemName);
     try {
@@ -68,8 +69,9 @@ const GroupContentProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
   const addValueHandler = async () => {
-    let tempVal = itemValue;
-    const itemRef = groupId && currentUserId && doc(db, "user_groups", currentUserId, "groups", groupId);
+    const tempVal = itemValue;
+    const itemRef =
+      groupId && currentUserId && currentGroup && doc(db, "user_groups", currentUserId, "groups", currentGroup);
 
     itemRef && console.log("groupId: ", groupId, "itemName: ", itemName);
     try {
@@ -88,8 +90,9 @@ const GroupContentProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const removeValueHandler = async () => {
-    let tempVal = itemValue;
-    const itemRef = groupId && currentUserId && doc(db, "user_groups", currentUserId, "groups", groupId);
+    const tempVal = itemValue;
+    const itemRef =
+      groupId && currentUserId && currentGroup && doc(db, "user_groups", currentUserId, "groups", currentGroup);
 
     itemRef && console.log("groupId: ", groupId, "itemName: ", itemName);
     try {
@@ -109,8 +112,9 @@ const GroupContentProvider = ({ children }: { children: React.ReactNode }) => {
   console.log(groupId);
 
   const addCustomValueHandler = async () => {
-    let tempVal = itemValue;
-    const itemRef = groupId && currentUserId && doc(db, "user_groups", currentUserId, "groups", groupId);
+    const tempVal = itemValue;
+    const itemRef =
+      groupId && currentUserId && currentGroup && doc(db, "user_groups", currentUserId, "groups", currentGroup);
 
     itemRef && console.log("groupId: ", groupId, "itemName: ", itemName);
     try {
