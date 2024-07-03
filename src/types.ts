@@ -3,7 +3,7 @@ import firebase from "firebase/compat/app";
 import { DocumentData } from "firebase/firestore";
 import { InputHTMLAttributes } from "react";
 
-export type TContextAPI = TUseGroupMenuReturn & {
+export type TContextAPI = {
   handleUserGroups: () => void;
 
   groupList: null | TGroupList[];
@@ -16,6 +16,10 @@ export type TContextAPI = TUseGroupMenuReturn & {
   currentPageName: string;
   setCurrentUserId: React.Dispatch<React.SetStateAction<string | null | undefined>>;
   currentUserId: string | null | undefined;
+  newGroupName: string;
+  setNewGroupName: React.Dispatch<React.SetStateAction<string>>;
+  setIsShowGroupCreator: React.Dispatch<React.SetStateAction<boolean>>;
+  isShowGroupCreator: boolean;
 };
 
 export type TGroupContentAPI = {
@@ -35,6 +39,7 @@ export type TAuthAPI = TUseLogOutReturn &
   TUseAuthReturn &
   TUseLogInReturn & {
     handleLogIn: (e: React.FormEvent<HTMLFormElement>) => void;
+    handleRegister: (e: React.FormEvent<HTMLFormElement>) => void;
     logInError: string;
     currentUser: firebase.User | null | undefined;
     loading: boolean;
@@ -56,8 +61,9 @@ export type TUseAuthReturn = {
   //   currentUser: firebase.User | null;
   signUpValues: TSignInValues;
   SignUpInputConstructor: TSignUpInputConstructor;
-  handleRegister: (e: React.FormEvent<HTMLFormElement>) => void;
+
   signUpError: string;
+  setSignUpError: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export type TUseLogInReturn = {
@@ -67,16 +73,8 @@ export type TUseLogInReturn = {
   // handleLogIn: (e: React.FormEvent<HTMLFormElement>) => void;
   // logInError: string;
   logInValues: TLogInValues;
-};
-
-export type TUseGroupMenuReturn = {
-  //   handlerNewGroupInput: () => void;
-  newGroupName: string;
-  setNewGroupName: React.Dispatch<React.SetStateAction<string>>;
-  setIsShowGroupCreator: React.Dispatch<React.SetStateAction<boolean>>;
-  isShowGroupCreator: boolean;
-
-  // setGroupList: React.Dispatch<React.SetStateAction<null | TGroupList>>;
+  logInError: string;
+  setLogInError: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export type TUseLogOutReturn = {
