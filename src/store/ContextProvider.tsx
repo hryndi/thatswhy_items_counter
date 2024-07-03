@@ -1,12 +1,8 @@
 import { createContext } from "use-context-selector";
 import { TContextAPI, TGroupList } from "../types";
-import { useAuth } from "../hooks/useAuth";
-import { useLogIn } from "../hooks/useLogIn";
-import { useLogOut } from "../hooks/useLogOut";
+
 import React, { useEffect, useState } from "react";
 
-import firebase from "firebase/compat/app";
-import { auth } from "../firebase/fbconfig";
 import { useGroupMenu } from "../hooks/useGroupMenu";
 // import { useGroupContent } from "../hooks/useGroupContent";
 
@@ -19,17 +15,13 @@ export const ContextAPI = createContext<null | TContextAPI>(null);
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const { groupId } = useParams();
-  const [groupItemsData, setGroupItemsData] = useState<DocumentData | null>(null);
-  const [currentUser, setCurrentUser] = useState<firebase.User | undefined | null>(undefined);
   const [currentUserId, setCurrentUserId] = useState<string | undefined | null>(undefined);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [groupItemsData, setGroupItemsData] = useState<DocumentData | null>(null);
+
   const [groupList, setGroupList] = useState<TGroupList[] | null>(null);
   const [currentGroup, setCurrentGroup] = useState<string>("");
   const [currentPageName, setCurrentPageName] = useState<string>("Menu");
 
-  const { signUpValues, SignUpInputConstructor, handleRegister, signUpError } = useAuth();
-  const { logInValues, SignInInputConstructor } = useLogIn();
-  const { handleLogout, logOutError } = useLogOut();
   const { newGroupName, isShowGroupCreator, setIsShowGroupCreator, setNewGroupName } = useGroupMenu();
   // const { displayGroupItemsHandler, groupItemsData } = useGroupContent();
 
@@ -39,34 +31,6 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     } else {
       addValueHandler();
       navigate("/");
-    }
-  };
-
-  const [logInError, setLogInError] = useState<string>("");
-  const logIn = (email: string, password: string) => {
-    return auth.signInWithEmailAndPassword(email, password);
-  };
-
-  const handleLogIn = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!/^[a-zA-Z\s].*@.*$/.test(logInValues.email)) {
-      return setLogInError("Email is not correct");
-    }
-    if (logInValues.password === "") {
-      return setLogInError("password field can not be empty");
-    }
-
-    try {
-      setLogInError("");
-      setLoading(true);
-
-      await logIn(logInValues.email, logInValues.password);
-
-      setTimeout(() => navigate("/"));
-    } catch (errors) {
-      setLogInError("Failed to log-in in account");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -120,34 +84,13 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     setNewGroupName,
     isShowGroupCreator,
     setIsShowGroupCreator,
-
     newGroupName,
-    currentUserId,
     handleUserGroups,
-    handleLogout,
-    logOutError,
-    setLoading,
-    currentUser,
-    signUpValues,
-    SignUpInputConstructor,
-    handleRegister,
-    loading,
-    signUpError,
-    logInValues,
-    SignInInputConstructor,
-    handleLogIn,
-    logInError,
+
+    currentUserId,
+    setCurrentUserId,
   };
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
-      setLoading(false);
-      setCurrentUserId(user?.uid || null);
-    });
-
-    return unsubscribe;
-  }, []);
   // useEffect(() => {}, []);
 
   useEffect(() => {
@@ -162,6 +105,6 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [currentUserId, groupId]);
 
-  return <ContextAPI.Provider value={vals}> {!loading && children} </ContextAPI.Provider>;
+  return <ContextAPI.Provider value={vals}> {children} </ContextAPI.Provider>;
 };
 export default ContextProvider;

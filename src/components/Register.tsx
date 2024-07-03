@@ -1,6 +1,7 @@
 import { Button, TextField, Typography, Alert, Box } from "@mui/material";
 import { useContextSelector } from "use-context-selector";
-import { ContextAPI } from "../store/ContextProvider";
+
+import { AuthAPI } from "../store/AuthProvider";
 import { Link } from "react-router-dom";
 import { styled as styledMui } from "@mui/material/styles";
 
@@ -44,11 +45,11 @@ const STextField = styledMui(TextField)(() => ({
 }));
 
 const Register = () => {
-  const SignUpInputConstructor = useContextSelector(ContextAPI, (v) => v?.SignUpInputConstructor);
-  const handleRegister = useContextSelector(ContextAPI, (v) => v?.handleRegister);
-  const loading = useContextSelector(ContextAPI, (v) => v?.loading);
-  const signUpError = useContextSelector(ContextAPI, (v) => v?.signUpError);
-  const currentUser = useContextSelector(ContextAPI, (v) => v?.currentUser);
+  const SignUpInputConstructor = useContextSelector(AuthAPI, (v) => v?.SignUpInputConstructor);
+  const handleRegister = useContextSelector(AuthAPI, (v) => v?.handleRegister);
+  const loading = useContextSelector(AuthAPI, (v) => v?.loading);
+  const signUpError = useContextSelector(AuthAPI, (v) => v?.signUpError);
+  const currentUser = useContextSelector(AuthAPI, (v) => v?.currentUser);
   return (
     <>
       <SBox>

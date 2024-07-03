@@ -3,26 +3,20 @@ import firebase from "firebase/compat/app";
 import { DocumentData } from "firebase/firestore";
 import { InputHTMLAttributes } from "react";
 
-export type TContextAPI = TUseAuthReturn &
-  TUseLogInReturn &
-  TUseLogOutReturn &
-  TUseGroupMenuReturn & {
-    currentUser: firebase.User | null | undefined;
-    loading: boolean;
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    currentUserId: string | null | undefined;
-    handleUserGroups: () => void;
-    handleLogIn: (e: React.FormEvent<HTMLFormElement>) => void;
-    logInError: string;
-    groupList: null | TGroupList[];
-    addValueHandler: () => void;
-    displayGroupItemsHandler: (groupId: string, currentUserId: string | null | undefined) => void;
-    groupItemsData: DocumentData | null;
-    currentGroup: string;
-    setCurrentGroup: React.Dispatch<React.SetStateAction<string>>;
-    setCurrentPageName: React.Dispatch<React.SetStateAction<string>>;
-    currentPageName: string;
-  };
+export type TContextAPI = TUseGroupMenuReturn & {
+  handleUserGroups: () => void;
+
+  groupList: null | TGroupList[];
+  addValueHandler: () => void;
+  displayGroupItemsHandler: (groupId: string, currentUserId: string | null | undefined) => void;
+  groupItemsData: DocumentData | null;
+  currentGroup: string;
+  setCurrentGroup: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentPageName: React.Dispatch<React.SetStateAction<string>>;
+  currentPageName: string;
+  setCurrentUserId: React.Dispatch<React.SetStateAction<string | null | undefined>>;
+  currentUserId: string | null | undefined;
+};
 
 export type TGroupContentAPI = {
   newFieldHandler: (newFieldName: string, newFieldValue: number) => void;
@@ -36,6 +30,16 @@ export type TGroupContentAPI = {
   customValue: number;
   addCustomValueHandler: () => void;
 };
+
+export type TAuthAPI = TUseLogOutReturn &
+  TUseAuthReturn &
+  TUseLogInReturn & {
+    handleLogIn: (e: React.FormEvent<HTMLFormElement>) => void;
+    logInError: string;
+    currentUser: firebase.User | null | undefined;
+    loading: boolean;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 
 export type TSignInValues = {
   email: string;
