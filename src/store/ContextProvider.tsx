@@ -1,7 +1,7 @@
 import { createContext } from "use-context-selector";
 import { TContextAPI, TGroupList } from "../types";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 // import { useGroupMenu } from "../hooks/useGroupMenu";
 // import { useGroupContent } from "../hooks/useGroupContent";
@@ -55,22 +55,24 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const displayGroupItemsHandler = (groupId: string, currentUserId: string | null | undefined) => {
-    const groupsRef = doc(db, `user_groups/${currentUserId}/groups/${currentGroup}`);
+  const displayGroupItemsHandler = useCallback(
+    (groupId: string, currentUserId: string | null | undefined) => {
+      const groupsRef = doc(db, `user_groups/${currentUserId}/groups/${currentGroup}`);
 
-    onSnapshot(groupsRef, (querySnapshot) => {
-      console.log("docId: " + querySnapshot.id);
+      console.log("docId: ");
       console.log("groupId: " + groupId);
       console.log(groupItemsData);
-
-      if (querySnapshot.id.replace(/ /g, "-") === groupId) {
-        // Only update state if data has changed
-        if (!groupItemsData || JSON.stringify(querySnapshot.data()) !== JSON.stringify(groupItemsData)) {
-          setGroupItemsData({ ...querySnapshot.data() });
+      onSnapshot(groupsRef, (querySnapshot) => {
+        if (querySnapshot.id.replace(/ /g, "-") === groupId) {
+          // Only update state if data has changed
+          if (!groupItemsData || JSON.stringify(querySnapshot.data()) !== JSON.stringify(groupItemsData)) {
+            setGroupItemsData({ ...querySnapshot.data() });
+          }
         }
-      }
-    });
-  };
+      });
+    },
+    [currentGroup, groupItemsData]
+  );
 
   const vals: TContextAPI = {
     currentPageName,
@@ -103,7 +105,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     if (currentUserId && groupId && currentGroup) {
       displayGroupItemsHandler?.(groupId, currentUserId);
     }
-  }, [currentUserId, groupId, currentGroup]);
+  }, [currentUserId, groupId, currentGroup, displayGroupItemsHandler]);
 
   return <ContextAPI.Provider value={vals}> {children} </ContextAPI.Provider>;
 };

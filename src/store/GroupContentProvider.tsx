@@ -110,7 +110,6 @@ const GroupContentProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(error, "Delete action was not successful");
     }
   };
-  console.log(groupId);
 
   const addCustomValueHandler = async () => {
     const tempVal = itemValue;
