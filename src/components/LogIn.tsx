@@ -1,6 +1,7 @@
 import { Button, TextField, Typography, Alert, Box, Stack } from "@mui/material";
 import { useContextSelector } from "use-context-selector";
-import { ContextAPI } from "../store/ContextProvider";
+
+import { AuthAPI } from "../store/AuthProvider";
 import { Link } from "react-router-dom";
 import { styled as styledMui } from "@mui/material";
 
@@ -39,11 +40,11 @@ const SForm = styledMui("form")(() => ({
 }));
 const LogIn = () => {
   // const navigate = useNavigate();
-  const SignInInputConstructor = useContextSelector(ContextAPI, (v) => v?.SignInInputConstructor);
-  const loading = useContextSelector(ContextAPI, (v) => v?.loading);
-  const currentUser = useContextSelector(ContextAPI, (v) => v?.currentUser);
-  const handleLogIn = useContextSelector(ContextAPI, (v) => v?.handleLogIn);
-  const logInError = useContextSelector(ContextAPI, (v) => v?.logInError);
+  const SignInInputConstructor = useContextSelector(AuthAPI, (v) => v?.SignInInputConstructor);
+  const loading = useContextSelector(AuthAPI, (v) => v?.loading);
+  const currentUser = useContextSelector(AuthAPI, (v) => v?.currentUser);
+  const handleLogIn = useContextSelector(AuthAPI, (v) => v?.handleLogIn);
+  const logInError = useContextSelector(AuthAPI, (v) => v?.logInError);
   return (
     <>
       <SBox>

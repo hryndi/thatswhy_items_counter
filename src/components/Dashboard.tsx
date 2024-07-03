@@ -1,11 +1,12 @@
 import { Typography, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useContextSelector } from "use-context-selector";
+import { AuthAPI } from "../store/AuthProvider";
 import { ContextAPI } from "../store/ContextProvider";
 const Dashboard = () => {
   const navigate = useNavigate();
-  const currentUser = useContextSelector(ContextAPI, (v) => v?.currentUser);
-  const logout = useContextSelector(ContextAPI, (v) => v?.handleLogout);
+  const currentUser = useContextSelector(AuthAPI, (v) => v?.currentUser);
+  const logout = useContextSelector(AuthAPI, (v) => v?.handleLogout);
   const setCurrentPageName = useContextSelector(ContextAPI, (v) => v?.setCurrentPageName);
   setCurrentPageName?.("Dashboard");
   return (

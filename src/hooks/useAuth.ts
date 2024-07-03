@@ -1,12 +1,13 @@
 import { useState, useMemo } from "react";
 import { TSignInValues, TUseAuthReturn, TSignUpInputConstructor } from "../types";
 import { auth } from "../firebase/fbconfig";
-import { ContextAPI } from "../store/ContextProvider";
+
 import { useContextSelector } from "use-context-selector";
 import { useNavigate } from "react-router-dom";
+import { AuthAPI } from "../store/AuthProvider";
 
 export const useAuth = (): TUseAuthReturn => {
-  const setLoading = useContextSelector(ContextAPI, (v) => v?.setLoading);
+  const setLoading = useContextSelector(AuthAPI, (v) => v?.setLoading);
   const navigate = useNavigate();
   const [signUpValues, setSignInValues] = useState<TSignInValues>({ email: "", password: "", passwordConfirm: "" });
   const [signUpError, setSignUpError] = useState<string>("");

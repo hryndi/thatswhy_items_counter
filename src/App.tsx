@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import ContextProvider from "./store/ContextProvider";
+import AuthProvider from "./store/AuthProvider";
 import { styled as styledMui } from "@mui/material";
 
 const SBox = styledMui(Box)(({ theme }) => ({
@@ -16,7 +17,9 @@ function App() {
   return (
     <SBox>
       <ContextProvider>
-        <Outlet />
+        <AuthProvider>
+          <Outlet />
+        </AuthProvider>
       </ContextProvider>
     </SBox>
   );
