@@ -85,7 +85,7 @@ const GroupContent = () => {
                   Object.entries(groupItemsData).map(([label, value]) => (
                     //   <Link to={}>{`${label}: ${value}`}</Link>
 
-                    <Grid item xs={12} id={label}>
+                    <Grid key={label} item xs={12} id={label}>
                       <Card sx={{ display: "flex", width: "100%", height: 60 }}>
                         <CardActionArea
                           sx={{ display: "flex", justifyContent: "flex-start", gap: "0.8rem" }}
