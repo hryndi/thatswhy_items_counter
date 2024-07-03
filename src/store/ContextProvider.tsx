@@ -3,7 +3,7 @@ import { TContextAPI, TGroupList } from "../types";
 
 import React, { useEffect, useState } from "react";
 
-import { useGroupMenu } from "../hooks/useGroupMenu";
+// import { useGroupMenu } from "../hooks/useGroupMenu";
 // import { useGroupContent } from "../hooks/useGroupContent";
 
 import { db } from "../firebase/fbconfig";
@@ -21,9 +21,20 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [groupList, setGroupList] = useState<TGroupList[] | null>(null);
   const [currentGroup, setCurrentGroup] = useState<string>("");
   const [currentPageName, setCurrentPageName] = useState<string>("Menu");
+  const [newGroupName, setNewGroupName] = useState<string>("");
+  const [isShowGroupCreator, setIsShowGroupCreator] = useState<boolean>(false);
 
-  const { newGroupName, isShowGroupCreator, setIsShowGroupCreator, setNewGroupName } = useGroupMenu();
+  // const { newGroupName, isShowGroupCreator, setIsShowGroupCreator, setNewGroupName } = useGroupMenu();
   // const { displayGroupItemsHandler, groupItemsData } = useGroupContent();
+
+  const addValueHandler = () => {
+    if (currentUserId) {
+      const groupRef = doc(db, "user_groups", currentUserId, "groups", newGroupName);
+
+      setDoc(groupRef, {});
+    }
+    alert("added...");
+  };
 
   const handleUserGroups = () => {
     if (newGroupName === "" || newGroupName.length > 20) {
@@ -41,8 +52,6 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       onSnapshot(collectionVal, (doc) => {
         setGroupList(doc.docs.map((doc) => ({ id: doc.id.replace(/ /g, "-"), name: doc.id })));
       });
-      // const getValue = await getDocs(collectionVal);
-      // setGroupList(getValue.docs.map((doc) => ({ id: doc.id })));
     }
   };
 
@@ -61,15 +70,6 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
         }
       }
     });
-  };
-
-  const addValueHandler = () => {
-    if (currentUserId) {
-      const groupRef = doc(db, "user_groups", currentUserId, "groups", newGroupName);
-
-      setDoc(groupRef, {});
-    }
-    alert("added...");
   };
 
   const vals: TContextAPI = {
@@ -100,10 +100,10 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   }, [currentUserId]);
 
   useEffect(() => {
-    if (currentUserId && groupId) {
+    if (currentUserId && groupId && currentGroup) {
       displayGroupItemsHandler?.(groupId, currentUserId);
     }
-  }, [currentUserId, groupId]);
+  }, [currentUserId, groupId, currentGroup]);
 
   return <ContextAPI.Provider value={vals}> {children} </ContextAPI.Provider>;
 };

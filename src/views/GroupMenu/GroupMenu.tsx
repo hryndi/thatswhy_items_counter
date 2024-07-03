@@ -7,7 +7,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/fbconfig";
 import { styled as styledMui } from "@mui/material/styles";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 const SBox = styledMui(Box)(() => ({
   display: "flex",
@@ -20,12 +20,12 @@ const GroupMenu = () => {
   const navigate = useNavigate();
 
   const groupList = useContextSelector(ContextAPI, (v) => v?.groupList);
-  const setCurrentGroup = useContextSelector(ContextAPI, (v) => v?.setCurrentGroup);
+  // const setCurrentGroup = useContextSelector(ContextAPI, (v) => v?.setCurrentGroup);
 
-  const currentGroup = useContextSelector(ContextAPI, (v) => v?.currentGroup);
+  // const currentGroup = useContextSelector(ContextAPI, (v) => v?.currentGroup);
   const currentUserId = useContextSelector(ContextAPI, (v) => v?.currentUserId);
 
-  useEffect(() => console.log(currentGroup), [currentGroup]);
+  // useEffect(() => console.log(currentGroup, groupList), [currentGroup]);
   const deleteGroupHandler = async (docId: string) => {
     currentUserId && (await deleteDoc(doc(db, "user_groups", currentUserId, "groups", docId)));
   };
@@ -42,14 +42,13 @@ const GroupMenu = () => {
         <Grid container spacing={2} overflow={"auto"}>
           {groupList?.map((item) => {
             return (
-              <Grid item xs={12} id={item.id}>
+              <Grid key={item.id} item xs={12} id={item.id}>
                 <Card sx={{ display: "flex", width: "100%" }}>
                   <CardActionArea
                     sx={{ display: "flex", justifyContent: "flex-start", gap: "0.8rem" }}
                     onClick={() => {
-                      setCurrentGroup?.(item.name); // Use functional update
+                      // setCurrentGroup?.(item.name); // Use functional update
                       setCurrentPageName?.(item.name as string);
-
                       navigate(item.id);
                     }}
                   >

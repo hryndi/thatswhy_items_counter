@@ -17,15 +17,19 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const setCurrentUserId = useContextSelector(ContextAPI, (v) => v?.setCurrentUserId);
 
-  const { signUpValues, SignUpInputConstructor, handleRegister, signUpError } = useAuth();
-  const { logInValues, SignInInputConstructor } = useLogIn();
+  const { logInValues, SignInInputConstructor, logInError, setLogInError } = useLogIn();
+  const { signUpValues, SignUpInputConstructor, signUpError, setSignUpError } = useAuth();
   const { handleLogout, logOutError } = useLogOut();
-  const [logInError, setLogInError] = useState<string>("");
+
   const [currentUser, setCurrentUser] = useState<firebase.User | undefined | null>(undefined);
+
   const [loading, setLoading] = useState<boolean>(true);
 
   const logIn = (email: string, password: string) => {
     return auth.signInWithEmailAndPassword(email, password);
+  };
+  const signup = (email: string, password: string) => {
+    return auth.createUserWithEmailAndPassword(email, password);
   };
 
   const handleLogIn = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,6 +54,28 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading?.(false);
     }
   };
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (signUpValues.password !== signUpValues.passwordConfirm) {
+      return setSignUpError("Passwords do not match");
+    }
+    if (!/^[a-zA-Z\s].*@.*$/.test(signUpValues.email)) {
+      return setSignUpError("Email is not correct");
+    }
+    if (signUpValues.password === "") {
+      return setSignUpError("Password field can not be empty");
+    } else {
+      try {
+        setSignUpError("");
+        setLoading?.(true);
+        await signup(signUpValues.email, signUpValues.password);
+        setTimeout(() => navigate("/"));
+      } catch (errors) {
+        setSignUpError("Failed to create an account");
+      }
+      setLoading?.(false);
+    }
+  };
 
   const vals: TAuthAPI = {
     handleLogout,
@@ -65,6 +91,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     currentUser,
     loading,
     setLoading,
+    setSignUpError,
+    setLogInError,
   };
 
   useEffect(() => {

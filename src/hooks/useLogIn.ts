@@ -3,7 +3,7 @@ import { TLogInValues, TUseLogInReturn, TSignInInputConstructor } from "../types
 
 export const useLogIn = (): TUseLogInReturn => {
   const [logInValues, setLogInValues] = useState<TLogInValues>({ email: "", password: "" });
-
+  const [logInError, setLogInError] = useState<string>("");
   const SignInInputConstructor: TSignInInputConstructor = useMemo(
     () => [
       {
@@ -34,5 +34,5 @@ export const useLogIn = (): TUseLogInReturn => {
     [logInValues]
   );
 
-  return { logInValues, SignInInputConstructor };
+  return { logInValues, SignInInputConstructor, logInError, setLogInError };
 };

@@ -5,6 +5,7 @@ import { useContextSelector } from "use-context-selector";
 import { Box, Button, Card, CardActionArea, Grid, Stack, Typography } from "@mui/material";
 import GroupContentProvider from "../../store/GroupContentProvider";
 import { styled as styledMui } from "@mui/material/styles";
+import { useEffect } from "react";
 
 const SBox = styledMui(Box)(() => ({
   display: "flex",
@@ -23,6 +24,14 @@ const GroupContent = () => {
   const isGroupContentUrlCorrect = groupList?.find((group) => group.id === groupId);
 
   const setCurrentPageName = useContextSelector(ContextAPI, (v) => v?.setCurrentPageName);
+  const setCurrentGroup = useContextSelector(ContextAPI, (v) => v?.setCurrentGroup);
+
+  useEffect(() => {
+    const group = groupList?.find((item) => item.id === groupId);
+    if (group) {
+      setCurrentGroup?.(group.name);
+    }
+  }, [groupList, groupId, setCurrentGroup]);
 
   return (
     <>
